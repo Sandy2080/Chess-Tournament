@@ -33,6 +33,7 @@ class Tournament:
             "players": self.players,
             "description": self.description
         })
+        print("New tournament: " + self.name +", in "+ self.location + " starting on " + self.starting_date + " successfully saved")
 
     def describe(self):
         tournaments_db = TinyDB('data/tournaments.json')

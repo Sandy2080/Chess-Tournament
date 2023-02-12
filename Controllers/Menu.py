@@ -3,6 +3,7 @@ from time import gmtime, strftime
 
 from Views.Menu import MenuView
 from Views.Player_Menu import MenuPlayerView
+from Views.Tournament_Menu import MenuTournamentView
 from Models.Player import Player
 from Models.Round import Round
 from Models.Tournament import Tournament
@@ -22,7 +23,9 @@ class MenuController:
         print("you selected option: " + user_input)
 
         if user_input == "1":
-            self.create_tournament()
+            tournament = self.create_tournament()
+            if tournament:
+               self.save_tournament(tournament)
         elif user_input == "2":
             player = self.create_player()
             if player:
@@ -32,27 +35,7 @@ class MenuController:
         else:
             self.start()
 
-    def create_tournament(self):
-        """Create new tournament"""
-        MenuView.create_tournament_header()
-        tournament_information = {}
-        options = [
-            "name",
-            "location",
-            "description"
-        ]
-
-        for item in options:
-            MenuView.input_prompt_text(item)
-            user_input = input()
-
-            if user_input == "back":
-                self.start()
-            else:
-                tournament_information[item] = user_input
-        
-        players = self.display_players()
-        self.start_tournament(tournament_information, players)
+    
         
 
     def start_tournament(self,info, players):
@@ -131,10 +114,14 @@ class MenuController:
             "last", 
             "dob"
         ]
+        
         for attr in player_attrs:
             print("What is " + attr + "?")
             user_input = input().lower()
-            player_information[attr] = user_input
+            if user_input == "back":
+                self.start()
+            else:
+                player_information[attr] = user_input
         player = Player(player_information["first"], player_information["last"], player_information["dob"], 0)
         return player
        
@@ -156,6 +143,58 @@ class MenuController:
         else:
             self.start()
         str(player)
+
+    def create_tournament(self): 
+        ''' Function : create_tournament
+
+            Parameters
+            ----------
+            no parameters
+            ----------
+            Return
+            ----------
+            player: Tournament
+                    player information
+        '''
+        tournament_information = {}
+        tournament_attrs = [
+            "name",
+            "location",
+            "description"
+        ]
+
+        for item in tournament_attrs:
+            MenuView.input_prompt_text(item)
+            user_input = input()
+            if user_input == "back":
+                self.start()
+            else:
+                tournament_information[item] = user_input
+        
+        tournament = Tournament(tournament_information["name"], tournament_information["location"],  str(date.today()), "", tournament_information["description"])
+        return tournament
+    
+    def save_tournament(self, tournament):
+        ''' Function : create_player
+
+            Parameters
+            ----------
+            player: Tournamement
+                    tournament information
+            ----------
+            no return
+        '''
+        MenuTournamentView.start()
+        user_input = input().lower()
+        if user_input == "1":
+           tournament.save_to_db()
+        else:
+            self.start()
+
+    def _create_tournament(self):
+        """Create new tournament"""
+        players = self.display_players()
+        self.start_tournament(tournament_information, players)
 
     def create_reports(self):
         print("creating reports")
