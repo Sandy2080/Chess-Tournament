@@ -7,10 +7,9 @@ from Views.Menu import MenuView
 from Views.Player_Menu import MenuPlayerView
 from Controllers.Tournament import TournamentController
 from Controllers.Player import PlayerController
-
-
+ 
 class MenuController:
-
+ 
     def __init__(self):
         self.menu_view = MenuView()
         self.player_menu_view = MenuPlayerView()
@@ -27,12 +26,18 @@ class MenuController:
 
         if user_input == "1":
             tournament = self.tournamentController.create_tournament()
+            players = Player.load_player_db()
+            players = self.tournamentController.select_randomly(players)
+            players_pairs = self.tournamentController.create_round(players)
+            print(players)
             if tournament:
                self.tournamentController.save_tournament(tournament)
+
         elif user_input == "2":
             player = self.playerController.create_player()
             if player:
                self.playerController.save_player(player)
+
         elif user_input == "3":
             self.create_reports()
         else:

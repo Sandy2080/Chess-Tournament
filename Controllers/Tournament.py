@@ -1,9 +1,12 @@
 
+import random
 from datetime import date
+from time import gmtime, strftime
 
 from Views.Tournament_Menu import MenuTournamentView
 from Views.Menu import MenuView
 from Models.Tournament import Tournament
+from Models.Round import Round
 
 class TournamentController:
     
@@ -56,6 +59,10 @@ class TournamentController:
            tournament.save_to_db()
         else:
             self.start()
+    
+    def select_randomly(self, players):
+        random.shuffle(players)
+        return players
     
     def create_round(self, players):
         id_list = []
