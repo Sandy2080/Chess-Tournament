@@ -34,6 +34,7 @@ class Player:
             "score": self.score,
             "score": 0
         })
+        print("new player " + self.first +","+ self.last + " successfully saved")
 
 
     def __str__(self):
