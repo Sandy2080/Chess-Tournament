@@ -47,5 +47,8 @@ class Tournament:
         print("-Rounds : "+ str(last_tournament["rounds"]))
         print("-Current round : "+ str(last_tournament["current_round"]))
         print("-Number of players : "+ str(players))
+
+    def select_randomly(self):
+        pass
     
 

@@ -36,11 +36,6 @@ class Player:
         })
         print("new player " + self.first +","+ self.last + " successfully saved")
 
-
-    def __str__(self):
-        """Retourne une instance de player."""
-        return f"New player {self.first}, {self.last}."
-
     @staticmethod
     def load_player_db():
         """Load player database
@@ -53,3 +48,7 @@ class Player:
             players.append(item)
 
         return players
+    
+    def __str__(self):
+        """Retourne une instance de player."""
+        return f"New player {self.first}, {self.last}."
