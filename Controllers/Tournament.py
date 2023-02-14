@@ -36,7 +36,7 @@ class TournamentController:
             MenuView.input_prompt_text(item)
             user_input = input()
             if user_input == "back":
-                self.start()
+                return None
             else:
                 tournament_information[item] = user_input
         
@@ -50,6 +50,8 @@ class TournamentController:
             ----------
             player: Tournamement
                     tournament information
+            
+            Return
             ----------
             no return
         '''
@@ -57,9 +59,10 @@ class TournamentController:
         user_input = input().lower()
         if user_input == "1":
            tournament.save_to_db()
-        else:
-            self.start()
-    
+        elif user_input == "2":
+           return None
+      
+
     def select_randomly(self, players):
         random.shuffle(players)
         return players
@@ -76,6 +79,13 @@ class TournamentController:
             i+=2
         _round.make_pairs(players_pairs)
         return players_pairs
+    
+    def play_round(self, players_pairs):
+        scores = [0, 0.5, 1]
+        for player in players_pairs:
+            print(player[0])
+            print(player[1])
+
 
     def display_players(self):
         ''' Function : display_players

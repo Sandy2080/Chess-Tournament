@@ -25,14 +25,7 @@ class MenuController:
         print("you selected option: " + user_input)
 
         if user_input == "1":
-            tournament = self.tournamentController.create_tournament()
-            players = Player.load_player_db()
-            players = self.tournamentController.select_randomly(players)
-            players_pairs = self.tournamentController.create_round(players)
-            print(players)
-            if tournament:
-               self.tournamentController.save_tournament(tournament)
-
+            self.create_tournament()
         elif user_input == "2":
             player = self.playerController.create_player()
             if player:
@@ -44,10 +37,18 @@ class MenuController:
             self.start()   
 
 
-    def _create_tournament(self):
+    def create_tournament(self):
         """Create new tournament"""
-        players = self.display_players()
-        self.tournament.start_tournament(tournament_information, players)
+        players = Player.load_player_db()
+        tournament = self.tournamentController.create_tournament()
+        tournament = self.tournamentController.save_tournament(tournament) 
+        if tournament == None:
+            print("restart")
+            self.start()
+        else:
+            players = self.tournamentController.select_randomly(players)
+            players_pairs = self.tournamentController.create_round(players)
+     
 
     def create_reports(self):
         print("creating reports")
