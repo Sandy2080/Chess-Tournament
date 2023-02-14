@@ -33,6 +33,25 @@ class MenuController:
         elif user_input == "3":
             self.create_reports()
         else:
+            self.start()  
+
+    def restart(self, tournament):
+        """Main menu selector :
+        Redirects to respective submenus"""
+
+        MenuView.main_menu_extra(tournament.name)
+        user_input = input().lower()
+        if user_input == "1":
+            self.resume_tournament()
+        elif user_input == "2":
+            self.create_tournament()
+        elif user_input == "3":
+            player = self.playerController.create_player()
+            if player:
+               self.playerController.save_player(player)
+        elif user_input == "4":
+            self.create_reports()
+        else:
             self.start()   
 
 
@@ -45,11 +64,23 @@ class MenuController:
             self.start()
         else:
             players = self.tournamentController.select_randomly(players)
-            players_pairs = self.tournamentController.create_round(players)
-            players_pairs = self.tournamentController.play_rounds(players_pairs)
-            print(players_pairs)
+            (_round, players_pairs) = self.tournamentController.create_round(players)
+            tournament = self.tournamentController.play_round(players_pairs)
+            tournament.insert_to_db()
+            _round.insert_to_db(tournament)
+            self.restart(tournament)   
             #tournament = self.tournamentController.save_tournament(tournament)
      
+    def resume_tournament(self):
+        tournaments = Tournament.load_tournament_db()
+        rounds = Round.load_round_db()
+        current_round = len(rounds) + 1
+        today = date.today()
+        tournament = tournaments[-1]
+        tournament = self.tournamentController.play_round(tournament["players"])
+        _round = Round(current_round, str(today), "", str(strftime("%H:%M", gmtime())), "", tournament.players)
+        _round.insert_to_db(tournament)
+
 
     def create_reports(self):
         print("creating reports")

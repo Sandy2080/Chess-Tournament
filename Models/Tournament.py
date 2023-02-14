@@ -3,8 +3,32 @@ from tinydb import TinyDB
 class Tournament:
     """Tournoi d'échec."""
 
-    def __init__(self, name, location, starting_date, ending_date,  description):
+    def __init__(self):
         """Initialise les modalités du tournoi"""
+        self.tournament_id = 0
+        self.name = ""
+        self.location = ""
+        self.starting_date =""
+        self.ending_date = ""
+        self.current_round = 0
+        self.players = []
+        self.description = ""
+
+    @staticmethod
+    def load_tournament_db():
+        """Load tournaments database
+        @return: list of tournaments
+        """
+        tournaments_db = TinyDB('data/tournaments.json')
+        tournaments_db.all()
+        tournaments = []
+        for item in tournaments_db:
+            tournaments.append(item)
+
+        return tournaments
+
+    def create(self, name, location, starting_date, ending_date,  description):
+        """Renseigne les modalités du tournoi"""
         self.tournament_id = 0
         self.name = name
         self.location = location
@@ -13,13 +37,16 @@ class Tournament:
         self.current_round = 0
         self.players = []
         self.description = description
-    
-    @staticmethod
-    def getRounds_total():
+
+    def increment_round(self):
+        self.current_round < self.getRounds_total()
+        self.current_round += 1
+
+    def getRounds_total(self):
         return 4
         
-    def save_to_db(self):
-        """Save new player to database """
+    def insert_to_db(self):
+        """Save new tournament to database """
         tournaments_db = TinyDB('data/tournaments.json')
         tournaments_db.all()
         tournament_id = len(tournaments_db.all()) + 1
@@ -29,8 +56,6 @@ class Tournament:
             "location": self.location,
             "starting_date": self.starting_date,
             "ending_date": self.ending_date,
-            "rounds_total": self.rounds_total, 
-            "rounds": self.rounds,
             "current_round": self.current_round,
             "players": self.players,
             "description": self.description
