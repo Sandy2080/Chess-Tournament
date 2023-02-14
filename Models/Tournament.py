@@ -3,19 +3,21 @@ from tinydb import TinyDB
 class Tournament:
     """Tournoi d'échec."""
 
-    def __init__(self, name, location, starting_date, ending_date,  description, rounds=4):
+    def __init__(self, name, location, starting_date, ending_date,  description):
         """Initialise les modalités du tournoi"""
         self.tournament_id = 0
         self.name = name
         self.location = location
         self.starting_date = starting_date
         self.ending_date = ending_date
-        self.rounds_total = 0
         self.current_round = 0
         self.players = []
         self.description = description
-        self.rounds = rounds
     
+    @staticmethod
+    def getRounds_total():
+        return 4
+        
     def save_to_db(self):
         """Save new player to database """
         tournaments_db = TinyDB('data/tournaments.json')

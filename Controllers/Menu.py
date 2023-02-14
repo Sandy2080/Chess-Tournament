@@ -1,6 +1,7 @@
 from datetime import date
 from time import gmtime, strftime
 
+from Models.Tournament import Tournament
 from Models.Player import Player
 from Models.Round import Round
 from Views.Menu import MenuView
@@ -22,8 +23,6 @@ class MenuController:
 
         MenuView.main_menu()
         user_input = input().lower()
-        print("you selected option: " + user_input)
-
         if user_input == "1":
             self.create_tournament()
         elif user_input == "2":
@@ -41,13 +40,15 @@ class MenuController:
         """Create new tournament"""
         players = Player.load_player_db()
         tournament = self.tournamentController.create_tournament()
-        tournament = self.tournamentController.save_tournament(tournament) 
+       
         if tournament == None:
-            print("restart")
             self.start()
         else:
             players = self.tournamentController.select_randomly(players)
             players_pairs = self.tournamentController.create_round(players)
+            players_pairs = self.tournamentController.play_rounds(players_pairs)
+            print(players_pairs)
+            #tournament = self.tournamentController.save_tournament(tournament)
      
 
     def create_reports(self):
