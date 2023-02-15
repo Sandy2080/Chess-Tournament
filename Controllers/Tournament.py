@@ -65,6 +65,19 @@ class TournamentController:
         random.shuffle(players)
         return players
     
+    
+
+    def black_or_white(self, players_pairs):
+        colors = ["black", "white"]
+        for player in players_pairs:
+            rand = random.randrange(len(player))
+            player[0]["color"] =  colors[rand]
+            player[1]["color"] =  "white" if colors[rand] == "black" else "black"
+        return players_pairs
+    
+    def sort():
+        pass
+    
     def create_round(self, players):
         id_list = []
         players_pairs = []
@@ -74,11 +87,10 @@ class TournamentController:
         while i < len(players) - 1:
             players_pairs.append((players[i], players[i+1]))
             i+=2
-
         self.tournament.players = players_pairs
         return (_round, players_pairs)
 
-    def play_round(self, players_pairs):
+    def first_round(self, players_pairs):
         rounds = self.tournament.getRounds_total()
         for player in players_pairs:
             winner = random.randint(0, len(player))
@@ -92,13 +104,8 @@ class TournamentController:
         self.tournament.increment_round()
         return self.tournament
 
-    def black_or_white(self, players_pairs):
-        colors = ["black", "white"]
-        for player in players_pairs:
-            rand = random.randrange(len(player))
-            player[0]["color"] =  colors[rand]
-            player[1]["color"] =  "white" if colors[rand] == "black" else "black"
-
-    def sort():
+    def play_round(self, players_pairs):
         pass
+
+    
 

@@ -61,7 +61,8 @@ class Controller:
             players = self.tournamentController.select_randomly(players)
             print(players)
             (_round, players_pairs) = self.tournamentController.create_round(players)
-            tournament = self.tournamentController.play_round(players_pairs)
+            players = self.tournamentController.black_or_white(players_pairs)
+            tournament = self.tournamentController.first_round(players)
             self.tournamentController.save_tournament(tournament)
             tournament.insert_to_db()
             _round.insert_to_db(tournament)
@@ -75,7 +76,10 @@ class Controller:
         current_round = len(rounds) + 1
         today = date.today()
         tournament = tournaments[-1]
-        tournament = self.tournamentController.play_round(tournament["players"])
+        players = self.tournamentController.play_round(tournament["players"])
+        players = self.tournamentController.black_or_white(players)
+        print(players)
+
         _round = Round(current_round, str(today), "", str(strftime("%H:%M", gmtime())), "", tournament.players)
         _round.insert_to_db(tournament)
 
