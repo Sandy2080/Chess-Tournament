@@ -1,3 +1,5 @@
+from Controllers.utilities import input_text_field, date_text_field
+
 class MenuPlayerView:
 
     def __init__(self):
@@ -7,6 +9,21 @@ class MenuPlayerView:
         print("\n\n=== Create Player ? ===\n")
         print("[1] save")
         print("[2] cancel")
+
+    def ask_player_info(self) -> dict:
+        player_informations = {}
+        player_attrs = [
+            "first", 
+            "last", 
+            "dob"
+        ]
+        
+        for item in player_attrs:
+            user_input = input().lower()
+            if user_input == "back":
+                self.start()
+            player_informations[item.lower()] = input_text_field(item)
+        return player_informations
 
     def display_players(players, index):
         ''' Function : select_players

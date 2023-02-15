@@ -71,9 +71,10 @@ class TournamentController:
         today = date.today()
         _round = Round(1, str(today), "", str(strftime("%H:%M", gmtime())), "", players)
         i = 0
-        while i < len(players):
+        while i < len(players) - 1:
             players_pairs.append((players[i], players[i+1]))
             i+=2
+
         self.tournament.players = players_pairs
         return (_round, players_pairs)
 

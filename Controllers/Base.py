@@ -14,7 +14,7 @@ class Controller:
  
     def __init__(self):
         self.menu_view = MenuView()
-        self.player_menu_view = MenuPlayerView()
+        self.player_view = MenuPlayerView()
         self.tournamentView = MenuTournamentView()
         self.tournamentController = TournamentController()
         self.playerController = PlayerController()
@@ -26,13 +26,9 @@ class Controller:
         option = MenuView.main_menu()
         user_input = option.lower()
         if user_input == "1":
-            # ask for tournament information
             self.create_tournament()
-            # ask for confirmation and save
         elif user_input == "2":
-            player = self.playerController.create_player()
-            if player:
-               self.playerController.save_player(player)
+            self.create_player()
         elif user_input == "3":
             self.create_reports()
         else:
@@ -61,18 +57,18 @@ class Controller:
         tournament_informations = self.tournamentView.ask_tournament_info() 
         tournament = self.tournamentController.create_tournament(tournament_informations)
        
-        if tournament is None:
-            self.start()
-        else:
+        if tournament is not None:
             players = self.tournamentController.select_randomly(players)
+            print(players)
             (_round, players_pairs) = self.tournamentController.create_round(players)
             tournament = self.tournamentController.play_round(players_pairs)
             self.tournamentController.save_tournament(tournament)
             tournament.insert_to_db()
             _round.insert_to_db(tournament)
-            self.restart(tournament)   
-            #tournament = self.tournamentController.save_tournament(tournament)
-     
+            self.restart(tournament)    
+        else:
+            self.start()    
+            
     def resume_tournament(self):
         tournaments = Tournament.load_tournament_db()
         rounds = Round.load_round_db()
@@ -84,7 +80,8 @@ class Controller:
         _round.insert_to_db(tournament)
 
     def create_player(self):
-        player = self.playerController.create_player()
+        player_informations = self.player_view.ask_player_info()
+        player = self.playerController.create_player(player_informations)
         if player is not None:
             self.playerController.save_player(player)
 

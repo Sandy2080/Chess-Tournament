@@ -10,32 +10,19 @@ class PlayerController:
     def __init__(self):
         pass
 
-    def create_player(self): 
+    def create_player(self, player_information): 
         ''' Function : create_player
 
             Parameters
             ----------
-            no parameters
+            player_information: dict
             ----------
             Return
             ----------
             player: Player
                     player information
         '''
-        player_information = {}
-        player_attrs = [
-            "first", 
-            "last", 
-            "dob"
-        ]
         
-        for attr in player_attrs:
-            print("What is " + attr + "?")
-            user_input = input().lower()
-            if user_input == "back":
-                self.start()
-            else:
-                player_information[attr] = user_input
         player = Player(player_information["first"], player_information["last"], player_information["dob"], 0)
         return player
        

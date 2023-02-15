@@ -1,7 +1,8 @@
 from datetime import date
-from Controllers.utilities import input_text_field, date_text_field
 
 from Views.Menu import MenuView
+from Controllers.utilities import input_text_field, date_text_field
+
 class MenuTournamentView:
 
     def __init__(self):
