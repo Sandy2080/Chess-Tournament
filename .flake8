@@ -1,0 +1,11 @@
+[flake8]
+exclude=
+    .gitignore,
+    env/,
+    notes.md,
+    README.md,
+    requirements.txt,
+    .vscode/
+    builtins.pyi
+
+max-line-length = 119

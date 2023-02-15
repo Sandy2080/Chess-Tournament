@@ -4,5 +4,9 @@ __pycache__
 
 # persisted data
 /data
+
+# reports
+/flake-report
+
 # virtual env
 /env
