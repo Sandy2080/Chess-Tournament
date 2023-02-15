@@ -2,6 +2,7 @@
 import random
 from datetime import date
 from time import gmtime, strftime
+from Controllers.utilities import SCORE_LOOSER, SCORE_WINNER, SCORE_NULL 
 
 from Views.Tournament import MenuTournamentView
 from Views.Menu import MenuView
@@ -75,8 +76,20 @@ class TournamentController:
             player[1]["color"] =  "white" if colors[rand] == "black" else "black"
         return players_pairs
     
-    def sort():
-        pass
+    def sort_list_by_score(self, players_list_with_score):
+        """Sort players by score and by ranking.
+
+        Args:
+            players_list_with_score (List): list of players with score:
+                [[player, score], [player, score], ...]
+
+        Returns:
+            List: sorted_list_by_score, if multiple players have the same score,
+                    they are sorted by ranking
+        """
+        
+        sorted_list_by_score = sorted(sorted_list_by_ranking, key=lambda x: x[1], reverse=True)
+        return sorted_list_by_score
     
     def create_round(self, players):
         id_list = []
@@ -95,11 +108,11 @@ class TournamentController:
         for player in players_pairs:
             winner = random.randint(0, len(player))
             if winner == 2:
-                player[0]["score"] += 0.5
-                player[1]["score"] += 0.5
+                player[0]["score"] += SCORE_NULL
+                player[1]["score"] += SCORE_NULL
             else:
-                player[0]["score"] += 0 if winner == 1 else 1
-                player[1]["score"] += 0 if winner == 0 else 1   
+                player[0]["score"] += SCORE_LOOSER if winner == 1 else SCORE_WINNER
+                player[1]["score"] += SCORE_LOOSER if winner == 0 else SCORE_WINNER  
         self.tournament.players = players_pairs 
         self.tournament.increment_round()
         return self.tournament
