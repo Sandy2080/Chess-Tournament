@@ -2,7 +2,7 @@
 from datetime import date
 
 from Views.Menu import MenuView
-from Views.Player_Menu import MenuPlayerView
+from Views.Player import MenuPlayerView
 from Models.Player import Player
 
 class PlayerController:
@@ -40,7 +40,7 @@ class PlayerController:
         return player
        
     def save_player(self, player):
-        ''' Function : create_player
+        ''' Function : save_player
 
             Parameters
             ----------
@@ -56,3 +56,27 @@ class PlayerController:
         else:
             self.start()
         str(player)
+    
+
+    def display_players(self):
+        ''' Function : display_players
+
+            Parameters
+            ----------
+            no parameters
+            ----------
+            player: list
+                    players
+        '''
+
+        players = Player.load_player_db()
+        id_list = []
+        tour_players = []
+        for i in range(len(players)):
+            id_list.append(players[i]["id"])
+        i = 0
+        while i < len(players):
+            player = MenuView.display_players(players, i)
+            tour_players.append(player)
+            i+=1
+        return tour_players

@@ -3,7 +3,7 @@ import random
 from datetime import date
 from time import gmtime, strftime
 
-from Views.Tournament_Menu import MenuTournamentView
+from Views.Tournament import MenuTournamentView
 from Views.Menu import MenuView
 from Models.Tournament import Tournament
 from Models.Round import Round
@@ -12,44 +12,31 @@ class TournamentController:
     
     def __init__(self):
         self.tournament = Tournament()
-    
-    def create_tournament(self): 
+
+    def create_tournament(self, tournament_information): 
         ''' Function : create_tournament
 
             Parameters
             ----------
-            no parameters
+            tournament_information: dict
+
             ----------
             Return
             ----------
             player: Tournament
                     player information
         '''
-        tournament_information = {}
-        tournament_attrs = [
-            "name",
-            "location",
-            "description"
-        ]
-
-        for item in tournament_attrs:
-            MenuView.input_prompt_text(item)
-            user_input = input()
-            if user_input == "back":
-                return None
-            else:
-                tournament_information[item] = user_input
-        
+       
         self.tournament.create(tournament_information["name"], tournament_information["location"],  str(date.today()), "", tournament_information["description"])
         return self.tournament
     
     def save_tournament(self, tournament):
-        ''' Function : create_player
+        ''' Function : save_tournament
 
             Parameters
             ----------
-            player: Tournamement
-                    tournament information
+            tournament: Tournament
+                        tournament information
             
             Return
             ----------
@@ -64,6 +51,17 @@ class TournamentController:
       
  
     def select_randomly(self, players):
+        ''' Function : select_randomly
+            Parameters
+            ----------
+            players: list
+                     list of players
+            ----------
+            Return
+            ----------
+            players: list
+                     list of players
+        '''
         random.shuffle(players)
         return players
     
@@ -103,24 +101,3 @@ class TournamentController:
     def sort():
         pass
 
-    def display_players(self):
-        ''' Function : display_players
-
-            Parameters
-            ----------
-            no parameters
-            ----------
-            no return
-        '''
-
-        players = Player.load_player_db()
-        id_list = []
-        tour_players = []
-        for i in range(len(players)):
-            id_list.append(players[i]["id"])
-        i = 0
-        while i < len(players):
-            player = MenuView.display_players(players, i)
-            tour_players.append(player)
-            i+=1
-        return tour_players
