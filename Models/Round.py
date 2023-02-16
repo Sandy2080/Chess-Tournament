@@ -18,7 +18,7 @@ class Round:
         """Load rounds database
         @return: list of rounds
         """
-        rounds_db = TinyDB('data/rounds.json')
+        rounds_db = TinyDB('data/rounds.json', sort_keys=True, indent=4, separators=(',', ': '))
         rounds_db.all()
         rounds = []
         for item in rounds_db:

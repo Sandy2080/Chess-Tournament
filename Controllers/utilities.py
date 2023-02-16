@@ -8,7 +8,8 @@ def input_text_field(user_input):
     if user_input == "":
         return None
     return input()
-    
+
+
 def date_text_field(user_input):
     print(user_input)
     if user_input == "":

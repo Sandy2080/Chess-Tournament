@@ -23,7 +23,7 @@ class Player:
 
     def save_to_db(self):
         """Save new player to database """
-        players_db = TinyDB('data/players.json')
+        players_db = TinyDB('data/players.json', indent=4, separators=(',', ': '))
         players_db.all()
         player_id = len(players_db.all()) + 1
         player_id = players_db.insert({

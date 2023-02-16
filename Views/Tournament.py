@@ -29,7 +29,6 @@ class MenuTournamentView:
 
         tournament_information['start_date'] = start_date
         tournament_information['end_date'] = end_date 
-        print(tournament_information)
         return tournament_information
 
     def start():

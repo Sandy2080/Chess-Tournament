@@ -84,10 +84,14 @@ class Controller:
         _round.insert_to_db(tournament)
 
     def create_player(self):
-        player_informations = self.player_view.ask_player_info()
+        player_informations = self.playerController.ask_player_info()
         player = self.playerController.create_player(player_informations)
+    
         if player is not None:
             self.playerController.save_player(player)
+            self.start()
+        else:
+            print("player is none")
 
     def create_reports(self):
         print("creating reports")

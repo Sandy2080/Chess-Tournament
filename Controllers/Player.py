@@ -1,14 +1,31 @@
-
 from datetime import date
+from Controllers.utilities import input_text_field, date_text_field
+
 
 from Views.Menu import MenuView
 from Views.Player import MenuPlayerView
 from Models.Player import Player
 
+
 class PlayerController:
     
     def __init__(self):
         pass
+
+    def ask_player_info(self) -> dict:
+        player_informations = {}
+        player_attrs = [
+            "first", 
+            "last", 
+            "dob"
+        ]
+        
+        for item in player_attrs:
+            user_input = input().lower()
+            if user_input == "back":
+                self.start()
+            player_informations[item.lower()] = input_text_field(item)
+        return player_informations
 
     def create_player(self, player_information): 
         ''' Function : create_player
@@ -44,7 +61,6 @@ class PlayerController:
             self.start()
         str(player)
     
-
     def display_players(self):
         ''' Function : display_players
 
@@ -65,5 +81,5 @@ class PlayerController:
         while i < len(players):
             player = MenuView.display_players(players, i)
             tour_players.append(player)
-            i+=1
+            i += 1
         return tour_players
