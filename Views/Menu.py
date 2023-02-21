@@ -24,7 +24,7 @@ class MenuView:
     
     def main_menu_extra(name):
         print("\n\n=== MAIN MENU ===\n")
-        print("[1] Resume tournament '" +name.upper()+"'")
+        print("[1] Resume tournament '" + name.upper()+"'")
         print("[2] Create new tournament")
         print("[3] Create new player")
         print("[4] Reports")

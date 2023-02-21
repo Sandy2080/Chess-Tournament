@@ -18,17 +18,16 @@ class Round:
         """Load rounds database
         @return: list of rounds
         """
-        rounds_db = TinyDB('data/rounds.json', sort_keys=True, indent=4, separators=(',', ': '))
+        rounds_db = TinyDB('data/rounds.json', indent=4, separators=(',', ': '))
         rounds_db.all()
         rounds = []
         for item in rounds_db:
             rounds.append(item)
-
         return rounds
 
     def insert_to_db(self, tournament):
         """Save new player to database """
-        rounds_db = TinyDB('data/rounds.json')
+        rounds_db = TinyDB('data/rounds.json', indent=4, separators=(',', ': '))
         rounds_db.all()
         round_id = len(rounds_db.all()) + 1
         round_id = rounds_db.insert({

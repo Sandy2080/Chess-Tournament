@@ -34,7 +34,23 @@ class Controller:
         else:
             self.start()  
 
-    def restart(self, tournament):
+
+    def continueGame(self): 
+        rounds = Round.load_round_db()
+        last_round = rounds[-1]
+        round_id = last_round["round_id"]
+        print("current round " + str(round_id))
+        if round_id <= 4:
+            self.start_next_round()
+        else:
+            self.start_new_tournament()
+
+
+    def start_next_round(self):
+        print("start next round")
+        pass
+
+    def start_new_tournament(self, tournament):
         """Main menu selector :
         Redirects to respective submenus"""
 
@@ -54,7 +70,7 @@ class Controller:
     def create_tournament(self):
         """Create new tournament"""
         players = Player.load_player_db()
-        tournament_informations = self.tournamentView.ask_tournament_info() 
+        tournament_informations = self.tournamentController.ask_tournament_info() 
         tournament = self.tournamentController.create_tournament(tournament_informations)
        
         if tournament is not None:
@@ -63,10 +79,8 @@ class Controller:
             (_round, players_pairs) = self.tournamentController.create_round(players)
             players = self.tournamentController.black_or_white(players_pairs)
             tournament = self.tournamentController.first_round(players)
-            self.tournamentController.save_tournament(tournament)
-            tournament.insert_to_db()
-            _round.insert_to_db(tournament)
-            self.restart(tournament)    
+            tournament = self.tournamentController.save_tournament(tournament, _round)
+            self.continueGame()   
         else:
             self.start()    
             

@@ -19,7 +19,7 @@ class Tournament:
         """Load tournaments database
         @return: list of tournaments
         """
-        tournaments_db = TinyDB('data/tournaments.json', sort_keys=True, indent=4, separators=(',', ': '))
+        tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
         tournaments_db.all()
         tournaments = []
         for item in tournaments_db:

@@ -9,7 +9,6 @@ class MenuPlayerView:
         print("[1] save")
         print("[2] cancel")
 
-
     def display_players(players, index):
         ''' Function : select_players
 

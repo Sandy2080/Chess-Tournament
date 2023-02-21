@@ -2,13 +2,13 @@
 import random
 from datetime import date
 from time import gmtime, strftime
-from Controllers.utilities import SCORE_LOOSER, SCORE_WINNER, SCORE_NULL 
+from Controllers.utilities import input_text_field, date_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL 
+
 
 from Views.Tournament import MenuTournamentView
 from Views.Menu import MenuView
 from Models.Tournament import Tournament
 from Models.Round import Round
-
 class TournamentController:
     
     def __init__(self):
@@ -31,7 +31,7 @@ class TournamentController:
         self.tournament.create(tournament_information["name"], tournament_information["location"],  str(date.today()), "", tournament_information["description"])
         return self.tournament
     
-    def save_tournament(self, tournament):
+    def save_tournament(self, tournament, _round):
         ''' Function : save_tournament
 
             Parameters
@@ -46,11 +46,35 @@ class TournamentController:
         MenuTournamentView.start()
         user_input = input().lower()
         if user_input == "1":
-           return tournament
+            tournament.insert_to_db()
+            _round.insert_to_db(tournament)
+            return tournament
         elif user_input == "2":
-           return None
-      
- 
+            return None
+           
+    def ask_tournament_info(self) -> dict:
+        """Ask to user to type the tournament informations
+
+        Returns:
+            dict: tournament informations
+        """
+
+        tournament_information = {}
+        tournament_attrs = [
+            "Name",
+            "Location",
+            "description"
+        ]
+        for item in tournament_attrs:
+            tournament_information[item.lower()] = input_text_field(item)
+
+        start_date = date_text_field('starting date (jj/mm/aaaa): (if empty, starting date is today) ')
+        end_date = date_text_field("ending date (jj/mm/aaaa) : : (if empty, ending date is in one day) ' ")
+
+        tournament_information['start_date'] = start_date
+        tournament_information['end_date'] = end_date 
+        return tournament_information
+
     def select_randomly(self, players):
         ''' Function : select_randomly
             Parameters
@@ -66,8 +90,6 @@ class TournamentController:
         random.shuffle(players)
         return players
     
-    
-
     def black_or_white(self, players_pairs):
         colors = ["black", "white"]
         for player in players_pairs:
