@@ -38,9 +38,9 @@ class Round:
             "ending_date": self.ending_date,
             "starting_time": self.starting_time,
             "ending_time": self.ending_time,
-            "players": self.players
+            "players": tournament.players
         })
-        print("New Round: " + self.name +" starting on " + self.starting_date + " successfully saved")
+        return round_id
 
 
     def make_pairs(self, round):

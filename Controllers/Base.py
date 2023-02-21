@@ -35,19 +35,23 @@ class Controller:
             self.start()  
 
 
-    def continueGame(self): 
+    def continueGame(self, tournament): 
         rounds = Round.load_round_db()
         last_round = rounds[-1]
         round_id = last_round["round_id"]
-        print("current round " + str(round_id))
         if round_id <= 4:
-            self.start_next_round()
+            self.tournamentController.update_tournament(tournament, round_id)
+            self.start_next_round(last_round)
         else:
-            self.start_new_tournament()
+            self.start_new_tournament(tournament)
 
 
-    def start_next_round(self):
-        print("start next round")
+    def start_next_round(self, current_round):
+        players = current_round["players"]
+        (_round, players_pairs) = self.tournamentController.create_round_and_sort_players(players, current_round)
+        players = self.tournamentController.black_or_white(players_pairs)
+        # sort - select players
+        # sort - score
         pass
 
     def start_new_tournament(self, tournament):
@@ -72,15 +76,14 @@ class Controller:
         players = Player.load_player_db()
         tournament_informations = self.tournamentController.ask_tournament_info() 
         tournament = self.tournamentController.create_tournament(tournament_informations)
-       
+        
         if tournament is not None:
             players = self.tournamentController.select_randomly(players)
-            print(players)
-            (_round, players_pairs) = self.tournamentController.create_round(players)
+            (_round, players_pairs) = self.tournamentController.create_round_and_select_players((players))
             players = self.tournamentController.black_or_white(players_pairs)
-            tournament = self.tournamentController.first_round(players)
+            tournament = self.tournamentController.play_round(players)
             tournament = self.tournamentController.save_tournament(tournament, _round)
-            self.continueGame()   
+            self.continueGame(tournament)   
         else:
             self.start()    
             
@@ -92,8 +95,6 @@ class Controller:
         tournament = tournaments[-1]
         players = self.tournamentController.play_round(tournament["players"])
         players = self.tournamentController.black_or_white(players)
-        print(players)
-
         _round = Round(current_round, str(today), "", str(strftime("%H:%M", gmtime())), "", tournament.players)
         _round.insert_to_db(tournament)
 

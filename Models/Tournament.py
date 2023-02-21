@@ -1,4 +1,4 @@
-from tinydb import TinyDB
+from tinydb import TinyDB, Query
 
 class Tournament:
     """Tournoi d'échec."""
@@ -8,7 +8,7 @@ class Tournament:
         self.tournament_id = 0
         self.name = ""
         self.location = ""
-        self.starting_date =""
+        self.starting_date = ""
         self.ending_date = ""
         self.current_round = 0
         self.players = []
@@ -19,7 +19,7 @@ class Tournament:
         """Load tournaments database
         @return: list of tournaments
         """
-        tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
+        tournaments_db = TinyDB('data/tournaments.json')
         tournaments_db.all()
         tournaments = []
         for item in tournaments_db:
@@ -47,7 +47,7 @@ class Tournament:
         
     def insert_to_db(self):
         """Save new tournament to database """
-        tournaments_db = TinyDB('data/tournaments.json')
+        tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
         tournaments_db.all()
         tournament_id = len(tournaments_db.all()) + 1
         tournament_id = tournaments_db.insert({
@@ -56,11 +56,19 @@ class Tournament:
             "location": self.location,
             "starting_date": self.starting_date,
             "ending_date": self.ending_date,
-            "current_round": self.current_round,
+            "current_round": 0,
             "players": self.players,
             "description": self.description
         })
-        print("New tournament: " + self.name +", in "+ self.location + " starting on " + self.starting_date + " successfully saved")
+        return tournament_id
+
+    def update_db(self, tournament_id, round_id):
+        tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
+        tournament = Query()
+
+        print("round" + str(round_id))
+        tournaments_db.update({"current_round": str(round_id)}, tournament.id == tournament_id)
+
 
     def describe(self):
         tournaments_db = TinyDB('data/tournaments.json')
