@@ -31,7 +31,7 @@ class TournamentController:
                     player information
         '''
        
-        self.tournament.create(tournament_information["name"], tournament_information["location"],  str(date.today()), "", tournament_information["description"])
+        # self.tournament.toJSON(tournament_information)
         return self.tournament
     
     def save_tournament(self, tournament, pairs):
@@ -50,7 +50,6 @@ class TournamentController:
         user_input = input().lower()
         players = []
         if user_input == "1":
-            print(tournament)
             tournament_id = self.db.save_tournament_to_db(tournament, pairs)
             round_id = self.db.save_round_to_db(tournament_id, pairs)
             self.db.update_tournament_db(tournament_id, round_id)
@@ -64,13 +63,14 @@ class TournamentController:
                 players.append(player_2)
 
             # sort players by score
-            self.sort_players_and_save_to_db(players, 0)
+            self.sort_players_and_save_to_db(players)
             return tournament
         elif user_input == "2":
             return None
 
     def update_tournament(self, tournament, round_id):
-        tournament.update_db(tournament.tournament_id, round_id)
+        self.db.update_tournament_db(tournament["id"], round_id)
+        return tournament
 
     def ask_tournament_info(self) -> dict:
         """Ask to user to type the tournament informations
@@ -128,13 +128,15 @@ class TournamentController:
                 player[0]["score"] += SCORE_LOOSER if winner == 1 else SCORE_WINNER
                 player[1]["score"] += SCORE_LOOSER if winner == 0 else SCORE_WINNER
         self.tournament.players = players_pairs 
-        # self§.tournament.increment_round()
-        return self.tournament
+        tournament = self.tournament.serialize()
+        return tournament 
 
     def create_round_and_select_players(self, players):
         players_pairs = []
         today = date.today()
-        _round = Round(1, str(today), "", str(strftime("%H:%M", gmtime())), "", players)
+        rounds = self.db.load_round_db()
+        current_round = len(rounds) + 1
+        _round = Round(current_round, str(today), "", str(strftime("%H:%M", gmtime())), "", players)
         i = 0
         while i < len(players) - 1:
             players_pairs.append((players[i], players[i+1]))
@@ -142,7 +144,7 @@ class TournamentController:
         self.tournament.players = players_pairs
         return (_round, players_pairs)
     
-    def sort_players_and_save_to_db(self, players, current_round):
+    def sort_players_and_save_to_db(self, players):
         score_sorted_players = sorted(players, key=lambda x: x["score"], reverse=True)
         
         players = self.db.remove_records(score_sorted_players)

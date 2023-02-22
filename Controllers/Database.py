@@ -47,6 +47,17 @@ class Database:
         _player = Query()
         players_db.update({"score": player["score"]}, player["id"] == _player.id)
 
+    def load_round_db(self):
+        """Load rounds database
+        @return: list of rounds
+        """
+        rounds_db = TinyDB('data/rounds.json', indent=4, separators=(',', ': '))
+        rounds_db.all()
+        rounds = []
+        for item in rounds_db:
+            rounds.append(item)
+        return rounds
+
     def save_tournament_to_db(self, informations, pairs):
         """Save new tournament to database """
         tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
@@ -62,8 +73,12 @@ class Database:
             "players": pairs,
             "description": informations["description"]
         })
-        print
         return tournament_id
+
+    def load_tournament_db(self):
+        """Save new tournament to database """
+        tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
+        return tournaments_db.all()[-1]
 
     def update_tournament_db(self, tournament_id, round_id):
         tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))

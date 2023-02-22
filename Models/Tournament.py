@@ -1,5 +1,5 @@
-from tinydb import TinyDB, Query
-
+from tinydb import TinyDB
+from datetime import date
 class Tournament:
     """Tournoi d'échec."""
 
@@ -27,16 +27,29 @@ class Tournament:
 
         return tournaments
 
-    def create(self, name, location, starting_date, ending_date,  description):
+    def serialize(self):
+        return {
+            "tournament_id": self.tournament_id,
+            "name": self.name,
+            "location": self.location,
+            "starting_date": self.starting_date,
+            "ending_date": self.ending_date,
+            "current_round": 0,
+            "players": [],
+            "description": self.description 
+        }
+
+    def toJSON(self, informations):
         """Renseigne les modalités du tournoi"""
-        self.tournament_id = 0
-        self.name = name
-        self.location = location
-        self.starting_date = starting_date
-        self.ending_date = ending_date
+        print(informations)
+        self.tournament_id = informations["id"] if informations["id"] is not None else "" 
+        self.name = informations["name"]
+        self.location = informations["location"]
+        self.starting_date = str(date.today())
+        self.ending_date = informations["ending_date"]
         self.current_round = 0
         self.players = []
-        self.description = description
+        self.description = informations["description"]
 
     def increment_round(self):
         self.current_round < self.getRounds_total()
