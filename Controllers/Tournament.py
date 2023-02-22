@@ -5,7 +5,7 @@ from datetime import date
 from time import gmtime, strftime
 from Controllers.utilities import input_text_field, date_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL 
 
-
+from Controllers.Database import Database
 from Views.Tournament import MenuTournamentView
 from Views.Menu import MenuView
 from Models.Tournament import Tournament
@@ -15,6 +15,7 @@ class TournamentController:
     
     def __init__(self):
         self.tournament = Tournament()
+        self.db = Database()
 
     def create_tournament(self, tournament_information): 
         ''' Function : create_tournament
@@ -33,7 +34,7 @@ class TournamentController:
         self.tournament.create(tournament_information["name"], tournament_information["location"],  str(date.today()), "", tournament_information["description"])
         return self.tournament
     
-    def save_tournament(self, tournament, _round):
+    def save_tournament(self, tournament, pairs):
         ''' Function : save_tournament
 
             Parameters
@@ -47,10 +48,23 @@ class TournamentController:
         '''
         MenuTournamentView.start()
         user_input = input().lower()
+        players = []
         if user_input == "1":
-            tournament_id = tournament.insert_to_db()
-            round_id = _round.insert_to_db(tournament)
-            tournament.update_db(tournament_id, round_id)
+            print(tournament)
+            tournament_id = self.db.save_tournament_to_db(tournament, pairs)
+            round_id = self.db.save_round_to_db(tournament_id, pairs)
+            self.db.update_tournament_db(tournament_id, round_id)
+            
+            # update scores
+            for pair in pairs:
+                [player_1, player_2] = pair
+                self.db.update_player_score(player_1)
+                self.db.update_player_score(player_2)
+                players.append(player_1)
+                players.append(player_2)
+
+            # sort players by score
+            self.sort_players_and_save_to_db(players, 0)
             return tournament
         elif user_input == "2":
             return None
@@ -77,8 +91,8 @@ class TournamentController:
         start_date = date_text_field('starting date (jj/mm/aaaa): (if empty, starting date is today) ')
         end_date = date_text_field("ending date (jj/mm/aaaa) : : (if empty, ending date is in one day) ' ")
 
-        tournament_information['start_date'] = start_date
-        tournament_information['end_date'] = end_date 
+        tournament_information['starting_date'] = start_date
+        tournament_information['ending_date'] = end_date
         return tournament_information
 
     def select_randomly(self, players):
@@ -100,8 +114,8 @@ class TournamentController:
         colors = ["black", "white"]
         for player in players_pairs:
             rand = random.randrange(len(player))
-            player[0]["color"] =  colors[rand]
-            player[1]["color"] =  "white" if colors[rand] == "black" else "black"
+            player[0]["color"] = colors[rand]
+            player[1]["color"] = "white" if colors[rand] == "black" else "black"
         return players_pairs
     
     def play_round(self, players_pairs):
@@ -128,28 +142,17 @@ class TournamentController:
         self.tournament.players = players_pairs
         return (_round, players_pairs)
     
-    def create_round_and_sort_players(self, players, current_round):
-        players_pairs = []
-        today = date.today()
-        _round = Round(current_round, str(today), "", str(strftime("%H:%M", gmtime())), "", players)  
-        return (_round, players_pairs)
-
-    # move to utilities
-    def sort_list_by_score(self, players_list_with_score):
-        """Sort players by score and by ranking.
-
-        Args:
-            players_list_with_score (List): list of players with score:
-                [[player, score], [player, score], ...]
-
-        Returns:
-            List: sorted_list_by_score, if multiple players have the same score,
-                    they are sorted by ranking
-        """
+    def sort_players_and_save_to_db(self, players, current_round):
+        score_sorted_players = sorted(players, key=lambda x: x["score"], reverse=True)
         
-        sorted_list_by_score = sorted(sorted_list_by_ranking, key=lambda x: x[1], reverse=True)
-        return sorted_list_by_score  
+        players = self.db.remove_records(score_sorted_players)
+   
+        for player in score_sorted_players:
+            self.db.insert_player_to_db(player)
 
-    
+        # today = date.today()      
+        # _round = Round(current_round, str(today), "", str(strftime("%H:%M", gmtime())), "", players)
+        # return (_round, score_sorted_players)
+
     
 

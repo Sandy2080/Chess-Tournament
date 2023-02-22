@@ -44,31 +44,7 @@ class Tournament:
 
     def getRounds_total(self):
         return 4
-        
-    def insert_to_db(self):
-        """Save new tournament to database """
-        tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
-        tournaments_db.all()
-        tournament_id = len(tournaments_db.all()) + 1
-        tournament_id = tournaments_db.insert({
-            "id": tournament_id,
-            "name": self.name,
-            "location": self.location,
-            "starting_date": self.starting_date,
-            "ending_date": self.ending_date,
-            "current_round": 0,
-            "players": self.players,
-            "description": self.description
-        })
-        return tournament_id
-
-    def update_db(self, tournament_id, round_id):
-        tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
-        tournament = Query()
-
-        print("round" + str(round_id))
-        tournaments_db.update({"current_round": str(round_id)}, tournament.id == tournament_id)
-
+ 
 
     def describe(self):
         tournaments_db = TinyDB('data/tournaments.json')

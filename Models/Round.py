@@ -25,23 +25,6 @@ class Round:
             rounds.append(item)
         return rounds
 
-    def insert_to_db(self, tournament):
-        """Save new player to database """
-        rounds_db = TinyDB('data/rounds.json', indent=4, separators=(',', ': '))
-        rounds_db.all()
-        round_id = len(rounds_db.all()) + 1
-        round_id = rounds_db.insert({
-            "tournament_id": tournament.tournament_id,
-            "round_id": round_id,
-            "name": self.name,
-            "starting_date": self.starting_date,
-            "ending_date": self.ending_date,
-            "starting_time": self.starting_time,
-            "ending_time": self.ending_time,
-            "players": tournament.players
-        })
-        return round_id
-
 
     def make_pairs(self, round):
         print("save to db")
