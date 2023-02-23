@@ -7,12 +7,10 @@ from Controllers.utilities import input_text_field, date_text_field, SCORE_LOOSE
 
 from Controllers.Database import Database
 from Views.Tournament import MenuTournamentView
-from Views.Menu import MenuView
 from Models.Tournament import Tournament
 from Models.Round import Round
-
 class TournamentController:
-    
+ 
     def __init__(self):
         self.tournament = Tournament()
         self.db = Database()
@@ -69,7 +67,8 @@ class TournamentController:
             return None
 
     def update_tournament(self, tournament, round_id):
-        self.db.update_tournament_db(tournament["id"], round_id)
+        _tournament = tournament[-1]
+        self.db.update_tournament_db(_tournament["id"], round_id)
         return tournament
 
     def ask_tournament_info(self) -> dict:

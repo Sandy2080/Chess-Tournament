@@ -37,36 +37,16 @@ class Controller:
         else:
             self.start()  
 
-    def continueGame(self, tournament): 
+    def continueGame(self): 
         rounds = self.db.load_round_db()
-        last_round = rounds[-1]
-        round_id = last_round["round_id"]
+        current_round = rounds[-1]
+        round_id = current_round["round_id"]
+        tournaments = self.db.load_tournament_db()
+        current_tournament = tournaments[-1]
         if round_id <= 4:
-            print("resume - current id " + str(round_id))
-            self.resume_tournament(tournament)
+            self.resume_tournament(current_tournament, current_round)
         else:
-            self.start_new_tournament(tournament)
-
-    def start_new_tournament(self, tournament):
-        """Main menu selector :
-        Redirects to respective submenus"""
-        if tournament["name"] is not None:
-            MenuView.main_menu_extra(tournament["name"])
-        else:
-            _tournament = tournament.serialize()
-            MenuView.main_menu_extra(_tournament["name"])
-       
-        user_input = input().lower()
-        if user_input == "1":
-            self.start_next_round()
-        elif user_input == "2":
-            self.create_tournament()
-        elif user_input == "3":
-            self.create_player()
-        elif user_input == "4":
-            self.create_reports()
-        else:
-            self.start()   
+            self.start()
 
     def create_tournament(self):
         """Create new tournament"""
@@ -80,12 +60,12 @@ class Controller:
             players = self.tournamentController.black_or_white(players_pairs)
             tournament = self.tournamentController.play_round(players)
             tournament = self.tournamentController.save_tournament(tournament_informations, players_pairs)
-            self.continueGame(tournament)   
+            self.continueGame()   
         else:
             self.start()    
             
-    def resume_tournament(self, tournament):
-        MenuView.main_menu_extra(tournament["name"])
+    def resume_tournament(self, tournament, round):
+        MenuView.main_menu_extra(tournament, round)
         user_input = input().lower()
         if user_input == "1":
             self.start_next_round()
@@ -100,14 +80,14 @@ class Controller:
 
     def start_next_round(self):
         all_players = self.db.load_players_db()
-        _tournament = self.db.load_tournament_db()
+        tournaments = self.db.load_tournament_db()
+        current_tournament = tournaments[-1]
         (_round, players_pairs) = self.tournamentController.create_round_and_select_players(all_players)
         players = self.tournamentController.black_or_white(players_pairs)
-        tournament = self.tournamentController.play_round(players)
-        # _tournament = self.tournament.toJSON(tournament)
-        tournament = self.tournamentController.update_tournament(_tournament, _round.id)
-        self.continueGame(tournament)  
-   
+        self.tournamentController.play_round(players)
+        self.tournamentController.save_tournament(current_tournament, players_pairs)
+        self.continueGame()  
+ 
     def create_player(self):
         player_informations = self.playerController.ask_player_info()
         player = self.playerController.create_player(player_informations)

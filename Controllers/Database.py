@@ -78,7 +78,7 @@ class Database:
     def load_tournament_db(self):
         """Save new tournament to database """
         tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
-        return tournaments_db.all()[-1]
+        return tournaments_db.all()
 
     def update_tournament_db(self, tournament_id, round_id):
         tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
