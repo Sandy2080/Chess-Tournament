@@ -76,10 +76,20 @@ class BaseController:
             self.start()   
     
     def load_pairs(self):
+        i = 0
         pairs = self.db.load_pairs()
         players_solo = []
         for pair in pairs:
             players_solo.append(pair[1])
+   
+        for player in players_solo:
+            i += 1
+            if i > len(players_solo) - 1:
+                i = 0
+                pairs[i][1] = player  
+            else:  
+                pairs[i][1] = player  
+            
         return pairs
 
     def start_next_round(self):
