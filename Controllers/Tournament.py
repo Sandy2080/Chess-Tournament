@@ -1,6 +1,4 @@
-
 import random
-from tinydb import TinyDB
 from datetime import date
 from time import gmtime, strftime
 from Controllers.utilities import input_text_field, date_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL 
@@ -9,6 +7,8 @@ from Controllers.Database import Database
 from Views.Tournament import MenuTournamentView
 from Models.Tournament import Tournament
 from Models.Round import Round
+
+
 class TournamentController:
  
     def __init__(self):
@@ -48,6 +48,7 @@ class TournamentController:
         user_input = input().lower()
         players = []
         if user_input == "1":
+            # interroger bd pour current tournament
             tournament_id = self.db.save_tournament_to_db(tournament, pairs)
             round_id = self.db.save_round_to_db(tournament_id, pairs)
             self.db.update_tournament_db(tournament_id, round_id)
@@ -130,18 +131,18 @@ class TournamentController:
         tournament = self.tournament.serialize()
         return tournament 
 
-    def create_round_and_select_players(self, players):
+    def create_round_and_select_players(self, players: list) -> list:
         players_pairs = []
         today = date.today()
         rounds = self.db.load_round_db()
         current_round = len(rounds) + 1
-        _round = Round(current_round, str(today), "", str(strftime("%H:%M", gmtime())), "", players)
+        Round(current_round, str(today), "", str(strftime("%H:%M", gmtime())), "", players)
         i = 0
         while i < len(players) - 1:
             players_pairs.append((players[i], players[i+1]))
             i += 2
         self.tournament.players = players_pairs
-        return (_round, players_pairs)
+        return players_pairs
     
     def sort_players_and_save_to_db(self, players):
         score_sorted_players = sorted(players, key=lambda x: x["score"], reverse=True)
@@ -150,10 +151,6 @@ class TournamentController:
    
         for player in score_sorted_players:
             self.db.insert_player_to_db(player)
-
-        # today = date.today()      
-        # _round = Round(current_round, str(today), "", str(strftime("%H:%M", gmtime())), "", players)
-        # return (_round, score_sorted_players)
 
     
 

@@ -1,5 +1,7 @@
 from tinydb import TinyDB
 from datetime import date
+
+
 class Tournament:
     """Tournoi d'échec."""
 

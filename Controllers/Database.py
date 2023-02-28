@@ -57,8 +57,21 @@ class Database:
         for item in rounds_db:
             rounds.append(item)
         return rounds
+    
+    def load_last_round(self):
+        """Load rounds database
+        @return: list of rounds
+        """
+        return self.load_round_db()[-1]
+    
+    def load_pairs(self):
+        """Load rounds database
+        @return: list of rounds
+        """
+        return self.load_last_round()["pairs"]
 
     def save_tournament_to_db(self, informations, pairs):
+        print(informations)
         """Save new tournament to database """
         tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
         tournaments_db.all()

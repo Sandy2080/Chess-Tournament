@@ -1,7 +1,7 @@
-from Controllers.Base import Controller
+from Controllers.Base import BaseController
 
 def main():
-    Controller().start()
+    BaseController().start()
     
 if __name__ == "__main__":
     main()

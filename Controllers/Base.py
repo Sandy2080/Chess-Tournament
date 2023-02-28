@@ -1,9 +1,4 @@
-from datetime import date
-from time import gmtime, strftime
-
 from Models.Tournament import Tournament
-from Models.Player import Player
-from Models.Round import Round
 from Views.Menu import MenuView
 from Views.Player import MenuPlayerView
 from Views.Tournament import MenuTournamentView
@@ -11,7 +6,8 @@ from Controllers.Tournament import TournamentController
 from Controllers.Player import PlayerController
 from Controllers.Database import Database
  
-class Controller:
+
+class BaseController:
  
     def __init__(self):
         self.menu_view = MenuView()
@@ -56,9 +52,10 @@ class Controller:
         
         if tournament is not None:
             players = self.tournamentController.select_randomly(players)
-            (_round, players_pairs) = self.tournamentController.create_round_and_select_players((players))
+            players_pairs = self.tournamentController.create_round_and_select_players((players))
             players = self.tournamentController.black_or_white(players_pairs)
             tournament = self.tournamentController.play_round(players)
+            print(tournament_informations)
             tournament = self.tournamentController.save_tournament(tournament_informations, players_pairs)
             self.continueGame()   
         else:
@@ -77,14 +74,21 @@ class Controller:
             self.create_reports()
         else:
             self.start()   
+    
+    def load_pairs(self):
+        pairs = self.db.load_pairs()
+        players_solo = []
+        for pair in pairs:
+            players_solo.append(pair[1])
+        return pairs
 
     def start_next_round(self):
-        all_players = self.db.load_players_db()
+        all_players = self.load_pairs()
         tournaments = self.db.load_tournament_db()
         current_tournament = tournaments[-1]
-        (_round, players_pairs) = self.tournamentController.create_round_and_select_players(all_players)
-        players = self.tournamentController.black_or_white(players_pairs)
-        self.tournamentController.play_round(players)
+        players_pairs = self.tournamentController.black_or_white(all_players)
+        self.tournamentController.play_round(players_pairs)
+        # change to update tournament
         self.tournamentController.save_tournament(current_tournament, players_pairs)
         self.continueGame()  
  

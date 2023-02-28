@@ -1,6 +1,3 @@
-from datetime import date
-from Views.Menu import MenuView
-
 class MenuTournamentView:
 
     def __init__(self):

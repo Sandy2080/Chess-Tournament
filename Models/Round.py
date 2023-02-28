@@ -1,4 +1,3 @@
-from tinydb import TinyDB
 
 class Round:
     """Tour d'échec."""
