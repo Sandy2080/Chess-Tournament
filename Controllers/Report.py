@@ -89,5 +89,24 @@ class ReportsController:
             print("- round :" + str(_round['round_id']))
             print("- Started on :" + _round['starting_date'])
             print("- Ended on :" + _round['starting_date'])
-            
+    
+    def display_tournament_report_players(self, select_input):
+        """Display all tournaments to select
+        @param tournaments: tournaments list
+        """
+        i = 0
+        tournaments = self.db.load_tournament_db()
+        tournament = tournaments[select_input - 1]
+        players = tournament["players"]
+
+        print("****" + tournament['name'] + "****")
+        print("-" + tournament['location'])
+        for pair in players:
+            i += 1
+            print(str(i)+"/ player 1: " + pair[0]["last"].upper() + ", " + pair[0]["first"])
+            print("  - score: " + str(pair[0]["score"]))
+            i += 1
+            print(str(i)+"/ player 2: " + pair[1]["last"].upper() + ", " + pair[1]["first"])
+            print("  - score: " + str(pair[1]["score"]))
+            print("------")
         

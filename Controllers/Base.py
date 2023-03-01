@@ -120,11 +120,11 @@ class BaseController:
             self.start()
         elif user_input == "2":
             return_input = self.reportsController.tournament_select()
-            print(return_input)
             self.reportsController.display_tournament_report(int(return_input))
             self.start()
         elif user_input == "3":
-            print("players in tournament")
+            return_input = self.reportsController.tournament_select()
+            self.reportsController.display_tournament_report_players(int(return_input))
         elif user_input == "4":
             return_input = self.reportsController.tournament_select()
             self.reportsController.display_tournament_report_rounds(int(return_input))
