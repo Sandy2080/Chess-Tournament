@@ -113,13 +113,14 @@ class BaseController:
             print("player is none")
 
     def create_reports(self):
-        print("creating reports")
         ReportsView.reports_menu()
         user_input = input().lower()
         if user_input == "1":
             self.reports_menu()
         elif user_input == "2":
-            print("All tournaments")
+            return_input = self.reportsController.tournament_select()
+            if return_input == "back":
+                self.start()
         elif user_input == "3":
             print("Rounds in tournaments")
 

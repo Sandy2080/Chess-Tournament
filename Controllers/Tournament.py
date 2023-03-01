@@ -1,7 +1,7 @@
 import random
-from datetime import date
+from datetime import date, timedelta
 from time import gmtime, strftime
-from Controllers.utilities import input_text_field, date_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL 
+from Controllers.utilities import input_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL 
 
 from Controllers.Database import Database
 from Views.Tournament import MenuTournamentView
@@ -90,15 +90,11 @@ class TournamentController:
         for item in tournament_attrs:
             tournament_information[item.lower()] = input_text_field(item)
 
-        start_date = date_text_field('starting date (jj/mm/aaaa): \n(if empty, starting date is today) ')
-        end_date = date_text_field("ending date (jj/mm/aaaa) : \n(if empty, ending date is in one day) ' ")
-
-        print("start_date" + str(start_date))
-        print("end_date" + str(end_date))
-        
+        start_date = input_text_field('starting date (jj/mm/aaaa): \n(if empty, starting date is today) ')
+        end_date = input_text_field("ending date (jj/mm/aaaa) : \n(if empty, ending date is in one day) ' ")
         tournament_information['tournament_id'] = _id
-        tournament_information['starting_date'] = str(start_date)
-        tournament_information['ending_date'] = str(end_date)
+        tournament_information['starting_date'] = str(date.today()) if start_date == "" else start_date
+        tournament_information['ending_date'] = str(date.today() + timedelta(days=1)) if end_date == "" else end_date
         return tournament_information
     
     def black_or_white(self, players_pairs):

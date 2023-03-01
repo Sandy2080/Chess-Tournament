@@ -1,5 +1,8 @@
+from sys import displayhook
 from prettytable import PrettyTable
 from Controllers.Database import Database
+from Views.Menu import MenuView
+from Views.Report import ReportsView
 
 
 class ReportsController:
@@ -29,7 +32,6 @@ class ReportsController:
                 players[i]["dob"],
                 players[i]["score"]
             ])
-
         print(f"\n\n\n- All players ({sorting}) -\n")
         print(self.table)
 
@@ -46,4 +48,27 @@ class ReportsController:
         """
         players = sorted(players, key=lambda x: x.get('score'), reverse=True)
         self.display_players(players, "by rank")
+    
+    def tournament_select(self):
+        """Load all tournaments for selection
+        @return: user selection, list of all tournaments
+        """
+        tournaments = self.db.load_tournament_db()
+        user_input = ReportsView.reports_tournaments(tournaments)
+        self.display_tournament_report(int(user_input))
+        
+        if user_input == "back":
+            return "back"
+    
+    def display_tournament_report(self, select_input):
+        """Display all tournaments to select
+        @param tournaments: tournaments list
+        """
+        tournaments = self.db.load_tournament_db()
+        tournament = tournaments[select_input - 1]
 
+        print("****" + tournament['name'] + "****")
+        print("-" + tournament['location'])
+        print("-" + tournament['description'])
+        print("- Started on :" + tournament['starting_date'])
+        print("- Ended on :" + tournament['starting_date'])

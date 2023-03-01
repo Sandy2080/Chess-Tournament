@@ -10,7 +10,8 @@ class Tournament:
         self.location = ""
         self.starting_date = ""
         self.ending_date = ""
-        self.current_round = 0
+        self.current_round = 0, 
+        self.rounds_total = 4,
         self.players = []
         self.description = ""
 
@@ -34,6 +35,7 @@ class Tournament:
             "location": self.location,
             "starting_date": self.starting_date,
             "ending_date": self.ending_date,
+            "rounds_total": 4,
             "current_round": 0,
             "players": [],
             "description": self.description 
@@ -48,6 +50,7 @@ class Tournament:
         self.starting_date = informations["starting_date"]
         self.ending_date = informations["ending_date"]
         self.description = informations["description"]
+        self.rounds_total = 4
         self.current_round = 0
         self.players = []
        
@@ -56,7 +59,7 @@ class Tournament:
         self.current_round += 1
 
     def getRounds_total(self):
-        return 4
+        return self.rounds_total
  
     def describe(self):
         tournaments_db = TinyDB('data/tournaments.json')
