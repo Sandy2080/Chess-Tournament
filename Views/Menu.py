@@ -23,14 +23,13 @@ class MenuView:
         return menu_selection
     
     def main_menu_extra(current_tournament, current_round):
-        print("\n=== MAIN MENU ===\n")
-        print("*** Tournament : " + current_tournament["name"].upper() + " ***")
-        print("current round: " + str(current_round["round_id"]))
-        print("ready to go to the next round ?\n")
-        print("[1] Resume tournament '" + current_tournament["name"].upper()+"'")
-        print("[2] Create new tournament")
-        print("[3] Create new player")
-        print("[4] Reports")
+        print("\n=== ***** ===\n")
+        print("- Tournament : " + current_tournament["name"].upper())
+        print("- Current round: " + str(current_round["round_id"]))
+        print("Ready to go to the next round ?\n")
+        print("\n=== MENU ===\n")
+        print("[1] YES")
+        print("[2] EXIT")
 
     def input_prompt_text(option):
         print(f"\nEnter {option} (type [back] for main menu) : ", end='')

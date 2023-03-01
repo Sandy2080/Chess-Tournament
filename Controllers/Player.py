@@ -1,3 +1,4 @@
+import random
 from Controllers.utilities import input_text_field
 from Views.Menu import MenuView
 from Views.Player import MenuPlayerView
@@ -24,6 +25,21 @@ class PlayerController:
             player_informations[item.lower()] = input_text_field(item)
         return player_informations
 
+    def select_randomly(self, players):
+        ''' Function : select_randomly
+            Parameters
+            ----------
+            players: list
+                     list of players
+            ----------
+            Return
+            ----------
+            players: list
+                     list of players
+        '''
+        random.shuffle(players)
+        return players
+    
     def create_player(self, player_information): 
         ''' Function : create_player
 

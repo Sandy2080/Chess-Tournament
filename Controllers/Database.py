@@ -74,10 +74,8 @@ class Database:
         print(informations)
         """Save new tournament to database """
         tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
-        tournaments_db.all()
-        tournament_id = len(tournaments_db.all()) + 1
         tournaments_db.insert({
-            "id": tournament_id,
+            "tournament_id": informations["tournament_id"],
             "name": informations["name"],
             "location": informations["location"],
             "starting_date": informations["starting_date"],
@@ -86,7 +84,7 @@ class Database:
             "players": pairs,
             "description": informations["description"]
         })
-        return tournament_id
+        return informations["tournament_id"]
 
     def load_tournament_db(self):
         """Save new tournament to database """

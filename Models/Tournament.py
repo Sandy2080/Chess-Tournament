@@ -1,6 +1,4 @@
 from tinydb import TinyDB
-from datetime import date
-
 
 class Tournament:
     """Tournoi d'échec."""
@@ -44,15 +42,15 @@ class Tournament:
     def toJSON(self, informations):
         """Renseigne les modalités du tournoi"""
         print(informations)
-        self.tournament_id = informations["id"] if informations["id"] is not None else "" 
+        self.tournament_id = informations["tournament_id"] 
         self.name = informations["name"]
         self.location = informations["location"]
-        self.starting_date = str(date.today())
+        self.starting_date = informations["starting_date"]
         self.ending_date = informations["ending_date"]
+        self.description = informations["description"]
         self.current_round = 0
         self.players = []
-        self.description = informations["description"]
-
+       
     def increment_round(self):
         self.current_round < self.getRounds_total()
         self.current_round += 1
@@ -66,14 +64,12 @@ class Tournament:
         players = len(last_tournament["players"])
         print("\n" * 3 + "--- NEW TOURNAMENT ---")
         print("***Tournament started :" + last_tournament["name"].upper() + "***")
-        print("-ID: " + str(last_tournament["id"]))
+        print("-ID: " + str(last_tournament["tournament_id"]))
         print("-Date: " + last_tournament["starting_date"])
         print("-Location : " + last_tournament["location"])
         print("-Rounds : " + str(last_tournament["rounds"]))
         print("-Current round : " + str(last_tournament["current_round"]))
         print("-Number of players : " + str(players))
 
-    def select_randomly(self):
-        pass
     
 

@@ -28,8 +28,8 @@ class TournamentController:
             player: Tournament
                     player information
         '''
-       
-        # self.tournament.toJSON(tournament_information)
+
+        self.tournament.toJSON(tournament_information)
         return self.tournament
     
     def save_tournament(self, tournament, pairs):
@@ -49,6 +49,7 @@ class TournamentController:
         players = []
         if user_input == "1":
             # interroger bd pour current tournament
+            print(tournament)
             tournament_id = self.db.save_tournament_to_db(tournament, pairs)
             round_id = self.db.save_round_to_db(tournament_id, pairs)
             self.db.update_tournament_db(tournament_id, round_id)
@@ -69,7 +70,7 @@ class TournamentController:
 
     def update_tournament(self, tournament, round_id):
         _tournament = tournament[-1]
-        self.db.update_tournament_db(_tournament["id"], round_id)
+        self.db.update_tournament_db(_tournament["tournament_id"], round_id)
         return tournament
 
     def ask_tournament_info(self) -> dict:
@@ -78,7 +79,8 @@ class TournamentController:
         Returns:
             dict: tournament informations
         """
-
+        tournaments = self.db.load_tournament_db()
+        _id = len(tournaments) + 1
         tournament_information = {}
         tournament_attrs = [
             "Name",
@@ -88,27 +90,16 @@ class TournamentController:
         for item in tournament_attrs:
             tournament_information[item.lower()] = input_text_field(item)
 
-        start_date = date_text_field('starting date (jj/mm/aaaa): (if empty, starting date is today) ')
-        end_date = date_text_field("ending date (jj/mm/aaaa) : : (if empty, ending date is in one day) ' ")
+        start_date = date_text_field('starting date (jj/mm/aaaa): \n(if empty, starting date is today) ')
+        end_date = date_text_field("ending date (jj/mm/aaaa) : \n(if empty, ending date is in one day) ' ")
 
-        tournament_information['starting_date'] = start_date
-        tournament_information['ending_date'] = end_date
+        print("start_date" + str(start_date))
+        print("end_date" + str(end_date))
+        
+        tournament_information['tournament_id'] = _id
+        tournament_information['starting_date'] = str(start_date)
+        tournament_information['ending_date'] = str(end_date)
         return tournament_information
-
-    def select_randomly(self, players):
-        ''' Function : select_randomly
-            Parameters
-            ----------
-            players: list
-                     list of players
-            ----------
-            Return
-            ----------
-            players: list
-                     list of players
-        '''
-        random.shuffle(players)
-        return players
     
     def black_or_white(self, players_pairs):
         colors = ["black", "white"]

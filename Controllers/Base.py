@@ -51,11 +51,10 @@ class BaseController:
         tournament = self.tournamentController.create_tournament(tournament_informations)
         
         if tournament is not None:
-            players = self.tournamentController.select_randomly(players)
+            players = self.playerController.select_randomly(players)
             players_pairs = self.tournamentController.create_round_and_select_players((players))
             players = self.tournamentController.black_or_white(players_pairs)
             tournament = self.tournamentController.play_round(players)
-            print(tournament_informations)
             tournament = self.tournamentController.save_tournament(tournament_informations, players_pairs)
             self.continueGame()   
         else:
@@ -67,11 +66,7 @@ class BaseController:
         if user_input == "1":
             self.start_next_round()
         elif user_input == "2":
-            self.create_tournament()
-        elif user_input == "3":
-            self.create_player()
-        elif user_input == "4":
-            self.create_reports()
+            self.start()
         else:
             self.start()   
     
