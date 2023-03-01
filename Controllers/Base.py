@@ -1,10 +1,12 @@
 from Models.Tournament import Tournament
 from Views.Menu import MenuView
 from Views.Player import MenuPlayerView
+from Views.Report import ReportsView
 from Views.Tournament import MenuTournamentView
 from Controllers.Tournament import TournamentController
 from Controllers.Player import PlayerController
 from Controllers.Database import Database
+from Controllers.Report import ReportsController
  
 
 class BaseController:
@@ -12,11 +14,14 @@ class BaseController:
     def __init__(self):
         self.menu_view = MenuView()
         self.player_view = MenuPlayerView()
+        self.reports_view = ReportsView()
         self.tournamentView = MenuTournamentView()
         self.tournamentController = TournamentController()
         self.playerController = PlayerController()
+        self.reportsController = ReportsController()
         self.tournament = Tournament()
         self.db = Database()
+        self.reportsController = ReportsController()
     
     def start(self):
         """Main menu selector :
@@ -109,3 +114,22 @@ class BaseController:
 
     def create_reports(self):
         print("creating reports")
+        ReportsView.reports_menu()
+        user_input = input().lower()
+        if user_input == "1":
+            self.reports_menu()
+        elif user_input == "2":
+            print("All tournaments")
+        elif user_input == "3":
+            print("Rounds in tournaments")
+
+    def reports_menu(self):
+        """Reports menu selector"""
+        ReportsView.reports_player_sorting()
+        user_input = input().lower()
+        players = self.db.load_players_db()
+        
+        if user_input == "1":
+            self.reportsController.all_players_by_name(players)
+        elif user_input == "2":
+            self.reportsController.all_players_by_score(players)
