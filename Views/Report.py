@@ -11,13 +11,13 @@ class ReportsView:
         print("[2] All tournaments")
         print("[3] Players in a tournament")
         print("[4] Rounds in a tournament")
-        print("\n[back] Back to main menu")
+        print("[back] Back to main menu")
     
     @staticmethod
     def reports_player_sorting():
         print("\n[1] Sort by name")
         print("[2] Sort by score")
-        print("\n[back] Back to main menu")
+        print("[back] Back to main menu")
     
     @staticmethod
     def reports_tournaments(tournaments):

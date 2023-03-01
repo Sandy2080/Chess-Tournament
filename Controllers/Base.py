@@ -117,12 +117,18 @@ class BaseController:
         user_input = input().lower()
         if user_input == "1":
             self.reports_menu()
+            self.start()
         elif user_input == "2":
             return_input = self.reportsController.tournament_select()
-            if return_input == "back":
-                self.start()
+            print(return_input)
+            self.reportsController.display_tournament_report(int(return_input))
+            self.start()
         elif user_input == "3":
-            print("Rounds in tournaments")
+            print("players in tournament")
+        elif user_input == "4":
+            return_input = self.reportsController.tournament_select()
+            self.reportsController.display_tournament_report_rounds(int(return_input))
+            self.start()
 
     def reports_menu(self):
         """Reports menu selector"""

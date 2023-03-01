@@ -55,10 +55,9 @@ class ReportsController:
         """
         tournaments = self.db.load_tournament_db()
         user_input = ReportsView.reports_tournaments(tournaments)
-        self.display_tournament_report(int(user_input))
-        
         if user_input == "back":
             return "back"
+        return user_input
     
     def display_tournament_report(self, select_input):
         """Display all tournaments to select
@@ -72,3 +71,23 @@ class ReportsController:
         print("-" + tournament['description'])
         print("- Started on :" + tournament['starting_date'])
         print("- Ended on :" + tournament['starting_date'])
+    
+    def display_tournament_report_rounds(self, select_input):
+        """Display all tournaments to select
+        @param tournaments: tournaments list
+        """
+        tournaments = self.db.load_tournament_db()
+        tournament = tournaments[select_input - 1]
+        tournament_id = tournament["tournament_id"]
+        rounds = self.db.load_round_db()
+        tournament_rounds = list(filter(lambda r: r["tournament_id"] == tournament_id, rounds))
+       
+        print("number of rounds in tournament " + tournament["name"] + ": " + str(len(tournament_rounds)))
+        for _round in tournament_rounds:
+            print("**** Tournament: " + str(_round['name']) + "****")
+            print("------")
+            print("- round :" + str(_round['round_id']))
+            print("- Started on :" + _round['starting_date'])
+            print("- Ended on :" + _round['starting_date'])
+            
+        
