@@ -17,8 +17,8 @@ class ReportsController:
             "score",
         ]
   
-    def display_players(self, players, sorting):
-        """Display player report (all sorting types)"""
+    def display_players(self, players: list, sorting: str):
+        """Print player report (all sorting types)"""
         self.table.field_names = self.player_report_field_names
         self.table.align = "l"
 
@@ -33,15 +33,15 @@ class ReportsController:
         print(f"\n\n\n- All players ({sorting}) -\n")
         print(self.table)
 
-    def all_players_by_name(self, players):
-        """Player report (sorted by last name)
+    def all_players_by_name(self, players: list):
+        """Print player report (sorted by last name)
         @param players: list of players
         """
         players = sorted(players, key=lambda x: x.get('last'))
         self.display_players(players, "by name")
 
-    def all_players_by_score(self, players):
-        """Player report (sorted by score)
+    def all_players_by_score(self, players: list):
+        """Print player report (sorted by score)
         @param players: list of players
         """
         players = sorted(players, key=lambda x: x.get('score'), reverse=True)
@@ -58,11 +58,10 @@ class ReportsController:
         else:
             return int(user_input) - 1
     
-    def display_tournament_report(self, select_input):
+    def display_tournament_report(self, select_input: str):
         """Display all tournaments
             @param select_input: string
-        """
-         
+        """   
         tournaments = self.db.load_tournament_db()
         tournament = tournaments[select_input - 1]
         print("****" + tournament['name'] + "****")
@@ -78,14 +77,13 @@ class ReportsController:
                 tournament['ending_date']
             ])
             
-    def display_tournament_report_rounds(self, select_input):
+    def display_tournament_report_rounds(self, select_input: str):
         """Display all rounds in tournanment to select
         @param select_input: string
         """
         self.table.field_names = [
             "Round #",
             "Starting Date",
-            "Ending Date",
             "Starting Time",
             "Ending Time",
             "Matches"
@@ -98,35 +96,86 @@ class ReportsController:
         tournament_rounds = list(filter(lambda r: r["tournament_id"] == tournament_id, rounds))
        
         print("\n ====================\n Tournament: " + str(tournament['name']) + "\n ==================== \n")
-        print(" -number of rounds :" + tournament["name"] + ": " + str(len(tournament_rounds)))
+        print(" -number of rounds :" + str(len(tournament_rounds)))
         
         for _round in tournament_rounds:
             self.table.add_row([
                 _round['round_id'],
                 _round['starting_date'],
-                _round['ending_date'],
                 _round['starting_time'],
                 _round['ending_time'],
                 str(len(_round['pairs'])),
             ])
         print(self.table)
     
-    def display_tournament_report_players(self, select_input):
+    def return_winner(self, pair1, pair2):
+        if pair1["score"] > pair2["score"]:
+            return "WINNER"
+        elif pair1["score"] == pair2["score"]:
+            return "NULL"
+        else:
+            return ""
+    
+    def display_tournament_report_players(self, select_input: str):
         """Display all tournaments to select
         @param tournaments: tournaments list
         """
         i = 0
+        self.table.field_names = [
+            "Player",
+            "First",
+            "Last",
+            "Dob",
+            "Genre",
+            "Color",
+            "Score", 
+            ""
+        ]
+
         tournaments = self.db.load_tournament_db()
         tournament = tournaments[select_input - 1]
         players = tournament["players"]
-
-        print("****" + tournament['name'] + "****")
-        print("-" + tournament['location'])
+        tournament_id = tournament["tournament_id"]
+        rounds = self.db.load_round_db()
+        tournament_rounds = list(filter(lambda r: r["tournament_id"] == tournament_id, rounds))
+       
+        print("\n ====================\n Tournament: " + str(tournament['name']) + " / location : " + tournament['location'] + "\n ==================== \n")
+        print(" -number of rounds :" + str(len(tournament_rounds)))
+       
+        i = 0
         for pair in players:
-            i += 1
-            print(str(i)+"/ player 1: " + pair[0]["last"].upper() + ", " + pair[0]["first"])
-            print("  - score: " + str(pair[0]["score"]))
-            i += 1
-            print(str(i)+"/ player 2: " + pair[1]["last"].upper() + ", " + pair[1]["first"])
-            print("  - score: " + str(pair[1]["score"]))
-            print("------")
+            i = i + 1
+            self.table.add_row([
+                "Pair: " + str(i),
+                "---",
+                "---",
+                "---",
+                "---",
+                "---",
+                "---",
+                "---"
+            ])
+
+            self.table.add_row([
+                "Player 1",
+                pair[0]["last"].upper(),
+                pair[0]["first"],
+                pair[0]["dob"],
+                pair[0]["genre"],
+                pair[0]["color"],
+                pair[0]["score"], 
+                self.return_winner(pair[0], pair[1])
+            ])
+            self.table.add_row([
+                "Player 2",
+                pair[1]["last"].upper(),
+                pair[1]["first"],
+                pair[1]["dob"],
+                pair[1]["genre"],
+                pair[1]["color"],
+                pair[1]["score"],
+                self.return_winner(pair[1], pair[0])
+            ])
+        print(self.table)
+          
+       

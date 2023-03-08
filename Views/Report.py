@@ -20,7 +20,7 @@ class ReportsView:
         print("[back] Back to main menu")
     
     @staticmethod
-    def reports_tournaments(tournaments):
+    def reports_tournaments(tournaments: dict) -> str:
         """Display all tournaments to select
         @param tournaments: tournaments list
         """
