@@ -8,20 +8,18 @@ class ReportsController:
     def __init__(self):
         self.db = Database()
         self.table = PrettyTable()
-
-        self.player_report_field_names = [
+  
+    def display_players(self, players: list, sorting: str):
+        """Print players reports """
+        self.table = PrettyTable()
+        self.table.field_names = [
             "id",
             "last",
             "first",
             "dob",
             "score",
         ]
-  
-    def display_players(self, players: list, sorting: str):
-        """Print player report (all sorting types)"""
-        self.table.field_names = self.player_report_field_names
         self.table.align = "l"
-
         for i in range(len(players)):
             self.table.add_row([
                 players[i]["id"],
@@ -61,26 +59,31 @@ class ReportsController:
     def display_tournament_report(self, select_input: str):
         """Display all tournaments
             @param select_input: string
-        """   
+        """  
+        self.table = PrettyTable() 
+        self.table.field_names = [
+            "Name",
+            "Location",
+            "Start Date",
+            "End Date",
+        ]
         tournaments = self.db.load_tournament_db()
         tournament = tournaments[select_input - 1]
-        print("****" + tournament['name'] + "****")
-        print("-location: " + tournament['location'])
-        print("-description:" + tournament['description'])
-        print("- Started on :" + tournament['starting_date'])
-        print("- Ended on :" + tournament['starting_date'])
+
+        print("you selected tournament #: " + str(select_input + 1))
         self.table.add_row([
-                tournament['name'],
-                tournament['location'],
-                tournament['description'],
-                tournament['starting_date'],
-                tournament['ending_date']
-            ])
+            tournament['name'],
+            tournament['location'],
+            tournament['starting_date'],
+            tournament['ending_date']
+        ])
+        print(self.table)
             
     def display_tournament_report_rounds(self, select_input: str):
         """Display all rounds in tournanment to select
         @param select_input: string
         """
+        self.table = PrettyTable()
         self.table.field_names = [
             "Round #",
             "Starting Date",
@@ -121,6 +124,7 @@ class ReportsController:
         @param tournaments: tournaments list
         """
         i = 0
+        self.table = PrettyTable()
         self.table.field_names = [
             "Player",
             "First",

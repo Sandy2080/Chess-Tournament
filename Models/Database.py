@@ -12,11 +12,11 @@ class Database:
         players_db.all()
         player_id = len(players_db.all()) + 1
         players_db.insert({
-            "id": player["id"] if player["id"] != "" else player_id,
+            "id": player_id,
             "last":  player["last"],
             "first": player["first"],
             "dob": player["dob"],
-            "score": player["score"],
+            "score": 0,
         })
 
     def load_players_db(self):
