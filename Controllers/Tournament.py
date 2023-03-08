@@ -1,13 +1,13 @@
 import random
 from datetime import date, timedelta
 from time import gmtime, strftime
-from Controllers.utilities import input_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL 
 
 from Models.Database import Database
 from Views.Tournament import MenuTournamentView
 from Models.Tournament import Tournament
 from Models.Round import Round
 
+from Controllers.utilities import input_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL 
 
 class TournamentController:
  
@@ -15,7 +15,7 @@ class TournamentController:
         self.tournament = Tournament()
         self.db = Database()
 
-    def create_tournament(self, tournament_information): 
+    def create_tournament(self, tournament_information: dict) -> Tournament: 
         ''' Function : create_tournament
 
             Parameters
@@ -29,7 +29,7 @@ class TournamentController:
                     player information
         '''
 
-        self.tournament.toJSON(tournament_information)
+        self.tournament.toObject(tournament_information)
         return self.tournament
     
     def save_tournament(self, tournament, pairs):
@@ -42,14 +42,13 @@ class TournamentController:
             
             Return
             ----------
-            no return
+            Tournament or None
         '''
         MenuTournamentView.start()
         user_input = input().lower()
         players = []
         if user_input == "1":
             # interroger bd pour current tournament
-            print(tournament)
             tournament_id = self.db.save_tournament_to_db(tournament, pairs)
             round_id = self.db.save_round_to_db(tournament_id, pairs)
             self.db.update_tournament_db(tournament_id, round_id)
@@ -74,11 +73,18 @@ class TournamentController:
         return tournament
 
     def ask_tournament_info(self) -> dict:
-        """Ask to user to type the tournament informations
+        ''' Function : ask_tournament_info
+            Ask for the tournament informations
 
-        Returns:
+            Parameters
+            ----------
+            tournament: Tournament
+                        tournament information
+            
+            Return
+            ----------
             dict: tournament informations
-        """
+        '''
         tournaments = self.db.load_tournament_db()
         _id = len(tournaments) + 1
         tournament_information = {}
@@ -97,7 +103,18 @@ class TournamentController:
         tournament_information['ending_date'] = str(date.today() + timedelta(days=1)) if end_date == "" else end_date
         return tournament_information
     
-    def black_or_white(self, players_pairs):
+    def black_or_white(self, players_pairs: dict) -> dict:
+        ''' Function : black_or_white
+            Player black or white color
+
+            Parameters
+            ----------
+            dict: player_pairs
+            
+            Return
+            ----------
+            dict: player_pairs
+        '''
         colors = ["black", "white"]
         for player in players_pairs:
             rand = random.randrange(len(player))
@@ -105,7 +122,18 @@ class TournamentController:
             player[1]["color"] = "white" if colors[rand] == "black" else "black"
         return players_pairs
     
-    def play_match(self, players_pairs):
+    def play_match(self, players_pairs: dict) -> dict:
+        ''' Function : play_match
+            Play a chess match
+
+            Parameters
+            ----------
+            dict: player_pairs
+            
+            Return
+            ----------
+            dict: tournament
+        '''
         for player in players_pairs:
             winner = random.randint(0, len(player))
             if winner == 2:
@@ -119,6 +147,17 @@ class TournamentController:
         return tournament 
 
     def create_round_and_select_players(self, players: list) -> list:
+        ''' Function : create_round_and_select_players
+            Match players randomly and play first round
+
+            Parameters
+            ----------
+            dict: players
+            
+            Return
+            ----------
+            dict: players_pairs
+        '''
         players_pairs = []
         today = date.today()
         rounds = self.db.load_round_db()
@@ -131,7 +170,18 @@ class TournamentController:
         self.tournament.players = players_pairs
         return players_pairs
     
-    def sort_players_and_save_to_db(self, players):
+    def sort_players_and_save_to_db(self, players: list):
+        ''' Function : sort_players_and_save_to_db
+            Sort players in ascending order and save list to database
+
+            Parameters
+            ----------
+            dict: players
+           
+            Return
+            ----------
+            no return
+        '''
         score_sorted_players = sorted(players, key=lambda x: x["score"], reverse=True)
         
         players = self.db.remove_records(score_sorted_players)

@@ -9,7 +9,7 @@ class MenuPlayerView:
         print("[1] save")
         print("[2] cancel")
 
-    def display_players(players, index):
+    def display_players(players: dict, index: int) -> dict:
         ''' Function : select_players
 
             Parameters
@@ -20,7 +20,7 @@ class MenuPlayerView:
                             one player in tournament
             Returns
             ----------
-            no return
+            player: dict
         '''
         print(f"[{players[index]['id']}]", end=' ')
         print(f"{players[index]['last']}, {players[index]['first']}, {players[index]['dob']}", end=" | ")

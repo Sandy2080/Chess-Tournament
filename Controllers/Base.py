@@ -104,14 +104,9 @@ class BaseController:
  
     def create_player(self):
         player_informations = self.playerController.ask_player_info()
-        player = self.playerController.create_player(player_informations)
-    
-        if player is not None:
-            self.playerController.insert_player_to_db(player)
-            self.start()
-        else:
-            print("player is none")
-
+        self.db.insert_player_to_db(player_informations)
+        self.start()
+           
     def create_reports(self):
         ReportsView.reports_menu()
         user_input = input().lower()

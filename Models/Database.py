@@ -1,9 +1,8 @@
 from tinydb import TinyDB, Query, where
 from datetime import datetime, timedelta
-from time import gmtime, strftime
 
 class Database:
-    
+
     def __init__(self):
         pass
 
@@ -36,10 +35,6 @@ class Database:
         for player in players:
             players_db.remove(where('first') == player["first"])
         return players_db.all()
-
-    def insert_records(self, players):
-        for player in players:
-            self.insert_player_to_db(player)
 
     def update_player_score(self, player):
         """Load player database

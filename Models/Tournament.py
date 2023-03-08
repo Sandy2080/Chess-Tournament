@@ -1,10 +1,9 @@
 from tinydb import TinyDB
-
 class Tournament:
     """Tournoi d'échec."""
 
     def __init__(self):
-        """Initialise les modalités du tournoi"""
+        """Initialize an instance of Tournament """
         self.tournament_id = 0
         self.name = ""
         self.location = ""
@@ -16,7 +15,7 @@ class Tournament:
         self.description = ""
 
     @staticmethod
-    def load_tournament_db():
+    def load_tournament_db() -> list:
         """Load tournaments database
         @return: list of tournaments
         """
@@ -29,6 +28,7 @@ class Tournament:
         return tournaments
 
     def serialize(self):
+        """ Converts to JSON format """
         return {
             "tournament_id": self.tournament_id,
             "name": self.name,
@@ -41,8 +41,8 @@ class Tournament:
             "description": self.description 
         }
 
-    def toJSON(self, informations):
-        """Renseigne les modalités du tournoi"""
+    def toObject(self, informations: dict):
+        """ Converts to Tournament object """
         print(informations)
         self.tournament_id = informations["tournament_id"] 
         self.name = informations["name"]
@@ -53,26 +53,4 @@ class Tournament:
         self.rounds_total = 4
         self.current_round = 0
         self.players = []
-       
-    def increment_round(self):
-        self.current_round < self.getRounds_total()
-        self.current_round += 1
-
-    def getRounds_total(self):
-        return self.rounds_total
- 
-    def describe(self):
-        tournaments_db = TinyDB('data/tournaments.json')
-        last_tournament = tournaments_db.all()[-1]
-        players = len(last_tournament["players"])
-        print("\n" * 3 + "--- NEW TOURNAMENT ---")
-        print("***Tournament started :" + last_tournament["name"].upper() + "***")
-        print("-ID: " + str(last_tournament["tournament_id"]))
-        print("-Date: " + last_tournament["starting_date"])
-        print("-Location : " + last_tournament["location"])
-        print("-Rounds : " + str(last_tournament["rounds"]))
-        print("-Current round : " + str(last_tournament["current_round"]))
-        print("-Number of players : " + str(players))
-
-    
-
+      

@@ -4,7 +4,6 @@ from Views.Menu import MenuView
 from Views.Player import MenuPlayerView
 from Models.Player import Player
 
-
 class PlayerController:
     
     def __init__(self):
@@ -25,7 +24,7 @@ class PlayerController:
             player_informations[item.lower()] = input_text_field(item)
         return player_informations
 
-    def select_randomly(self, players):
+    def select_randomly(self, players: list) -> list:
         ''' Function : select_randomly
             Parameters
             ----------
@@ -40,7 +39,7 @@ class PlayerController:
         random.shuffle(players)
         return players
     
-    def create_player(self, player_information): 
+    def create_player(self, player_information: dict) -> Player: 
         ''' Function : create_player
 
             Parameters
@@ -56,7 +55,7 @@ class PlayerController:
         player = Player(player_information["first"], player_information["last"], player_information["dob"], 0)
         return player
        
-    def save_player(self, player):
+    def save_player(self, player: Player):
         ''' Function : save_player
 
             Parameters
