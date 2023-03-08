@@ -2,7 +2,7 @@ class RoundView:
 
     def __init__(self):
         pass
-        
+
     def input_text_field(self, user_input):
         if user_input == "back":
             return None
@@ -20,6 +20,5 @@ class RoundView:
         print("[4] Quit")
         menu_selection = input('enter menu option :')
         return menu_selection
-    
-   
-    
+
+

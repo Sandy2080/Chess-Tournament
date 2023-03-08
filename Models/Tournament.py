@@ -9,7 +9,7 @@ class Tournament:
         self.location = ""
         self.starting_date = ""
         self.ending_date = ""
-        self.current_round = 0, 
+        self.current_round = 0,
         self.rounds_total = 4,
         self.players = []
         self.description = ""
@@ -38,13 +38,13 @@ class Tournament:
             "rounds_total": 4,
             "current_round": 0,
             "players": [],
-            "description": self.description 
+            "description": self.description
         }
 
     def toObject(self, informations: dict):
         """ Converts to Tournament object """
         print(informations)
-        self.tournament_id = informations["tournament_id"] 
+        self.tournament_id = informations["tournament_id"]
         self.name = informations["name"]
         self.location = informations["location"]
         self.starting_date = informations["starting_date"]
@@ -53,4 +53,3 @@ class Tournament:
         self.rounds_total = 4
         self.current_round = 0
         self.players = []
-      

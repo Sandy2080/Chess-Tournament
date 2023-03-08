@@ -7,15 +7,15 @@ from Views.Tournament import MenuTournamentView
 from Models.Tournament import Tournament
 from Models.Round import Round
 
-from Controllers.utilities import input_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL 
+from Controllers.utilities import input_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL
 
 class TournamentController:
- 
+
     def __init__(self):
         self.tournament = Tournament()
         self.db = Database()
 
-    def create_tournament(self, tournament_information: dict) -> Tournament: 
+    def create_tournament(self, tournament_information: dict) -> Tournament:
         ''' Function : create_tournament
 
             Parameters
@@ -31,7 +31,7 @@ class TournamentController:
 
         self.tournament.toObject(tournament_information)
         return self.tournament
-    
+
     def save_tournament(self, tournament, pairs):
         ''' Function : save_tournament
 
@@ -39,7 +39,7 @@ class TournamentController:
             ----------
             tournament: Tournament
                         tournament information
-            
+
             Return
             ----------
             Tournament or None
@@ -52,7 +52,7 @@ class TournamentController:
             tournament_id = self.db.save_tournament_to_db(tournament, pairs)
             round_id = self.db.save_round_to_db(tournament_id, pairs)
             self.db.update_tournament_db(tournament_id, round_id)
-            
+
             # update scores
             for pair in pairs:
                 [player_1, player_2] = pair
@@ -80,7 +80,7 @@ class TournamentController:
             ----------
             tournament: Tournament
                         tournament information
-            
+
             Return
             ----------
             dict: tournament informations
@@ -102,7 +102,7 @@ class TournamentController:
         tournament_information['starting_date'] = str(date.today()) if start_date == "" else start_date
         tournament_information['ending_date'] = str(date.today() + timedelta(days=1)) if end_date == "" else end_date
         return tournament_information
-    
+
     def black_or_white(self, players_pairs: dict) -> dict:
         ''' Function : black_or_white
             Player black or white color
@@ -110,7 +110,7 @@ class TournamentController:
             Parameters
             ----------
             dict: player_pairs
-            
+
             Return
             ----------
             dict: player_pairs
@@ -121,7 +121,7 @@ class TournamentController:
             player[0]["color"] = colors[rand]
             player[1]["color"] = "white" if colors[rand] == "black" else "black"
         return players_pairs
-    
+
     def play_match(self, players_pairs: dict) -> dict:
         ''' Function : play_match
             Play a chess match
@@ -129,7 +129,7 @@ class TournamentController:
             Parameters
             ----------
             dict: player_pairs
-            
+
             Return
             ----------
             dict: tournament
@@ -142,9 +142,9 @@ class TournamentController:
             else:
                 player[0]["score"] += SCORE_LOOSER if winner == 1 else SCORE_WINNER
                 player[1]["score"] += SCORE_LOOSER if winner == 0 else SCORE_WINNER
-        self.tournament.players = players_pairs 
+        self.tournament.players = players_pairs
         tournament = self.tournament.serialize()
-        return tournament 
+        return tournament
 
     def create_round_and_select_players(self, players: list) -> list:
         ''' Function : create_round_and_select_players
@@ -153,7 +153,7 @@ class TournamentController:
             Parameters
             ----------
             dict: players
-            
+
             Return
             ----------
             dict: players_pairs
@@ -169,7 +169,7 @@ class TournamentController:
             i += 2
         self.tournament.players = players_pairs
         return players_pairs
-    
+
     def sort_players_and_save_to_db(self, players: list):
         ''' Function : sort_players_and_save_to_db
             Sort players in ascending order and save list to database
@@ -177,17 +177,17 @@ class TournamentController:
             Parameters
             ----------
             dict: players
-           
+
             Return
             ----------
             no return
         '''
         score_sorted_players = sorted(players, key=lambda x: x["score"], reverse=True)
-        
+
         players = self.db.remove_records(score_sorted_players)
-   
+
         for player in score_sorted_players:
             self.db.insert_player_to_db(player)
 
-    
+
 

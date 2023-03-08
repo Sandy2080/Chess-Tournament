@@ -7,10 +7,9 @@ from Controllers.Tournament import TournamentController
 from Controllers.Player import PlayerController
 from Models.Database import Database
 from Controllers.Report import ReportsController
- 
 
 class BaseController:
- 
+
     def __init__(self):
         self.menu_view = MenuView()
         self.player_view = MenuPlayerView()
@@ -22,7 +21,7 @@ class BaseController:
         self.tournament = Tournament()
         self.db = Database()
         self.reportsController = ReportsController()
-    
+
     def start(self):
         """Main menu selector :
         Redirects to respective submenus"""
@@ -36,9 +35,9 @@ class BaseController:
         elif user_input == "3":
             self.create_reports()
         else:
-            self.start()  
+            self.start()
 
-    def continueGame(self): 
+    def continueGame(self):
         rounds = self.db.load_round_db()
         current_round = rounds[-1]
         round_id = current_round["round_id"]
@@ -52,19 +51,19 @@ class BaseController:
     def create_tournament(self):
         """Create new tournament"""
         players = self.db.load_players_db()
-        tournament_informations = self.tournamentController.ask_tournament_info() 
+        tournament_informations = self.tournamentController.ask_tournament_info()
         tournament = self.tournamentController.create_tournament(tournament_informations)
-        
+
         if tournament is not None:
             players = self.playerController.select_randomly(players)
             players_pairs = self.tournamentController.create_round_and_select_players((players))
             players = self.tournamentController.black_or_white(players_pairs)
             tournament = self.tournamentController.play_match(players)
             tournament = self.tournamentController.save_tournament(tournament_informations, players_pairs)
-            self.continueGame()   
+            self.continueGame()
         else:
-            self.start()    
-            
+            self.start()
+
     def resume_tournament(self, tournament, round):
         MenuView.main_menu_extra(tournament, round)
         user_input = input().lower()
@@ -73,23 +72,23 @@ class BaseController:
         elif user_input == "2":
             self.start()
         else:
-            self.start()   
-    
+            self.start()
+
     def load_pairs(self):
         i = 0
         pairs = self.db.load_pairs()
         players_solo = []
         for pair in pairs:
             players_solo.append(pair[1])
-   
+
         for player in players_solo:
             i += 1
             if i > len(players_solo) - 1:
                 i = 0
-                pairs[i][1] = player  
-            else:  
-                pairs[i][1] = player  
-            
+                pairs[i][1] = player
+            else:
+                pairs[i][1] = player
+
         return pairs
 
     def start_next_round(self):
@@ -100,13 +99,13 @@ class BaseController:
         self.tournamentController.play_match(players_pairs)
         # change to update tournament
         self.tournamentController.save_tournament(current_tournament, players_pairs)
-        self.continueGame()  
- 
+        self.continueGame()
+
     def create_player(self):
         player_informations = self.playerController.ask_player_info()
         self.db.insert_player_to_db(player_informations)
         self.start()
-           
+
     def create_reports(self):
         ReportsView.reports_menu()
         user_input = input().lower()
@@ -128,14 +127,21 @@ class BaseController:
             return_input = self.reportsController.tournament_select()
             if return_input != "back":
                 self.reportsController.display_tournament_report_rounds(return_input)
+                return_input = self.reports_rounds_menu()
+                self.reportsController.display_tournament_match_report(return_input)
             self.start()
+
+    def reports_rounds_menu(self):
+        """Reports menu selector"""
+        ReportsView.reports_round_menu()
+        return input().lower()
 
     def reports_menu(self):
         """Reports menu selector"""
         ReportsView.reports_player_sorting()
         user_input = input().lower()
         players = self.db.load_players_db()
-        
+
         if user_input == "1":
             self.reportsController.all_players_by_name(players)
         elif user_input == "2":

@@ -5,18 +5,18 @@ from Views.Player import MenuPlayerView
 from Models.Player import Player
 
 class PlayerController:
-    
+
     def __init__(self):
         pass
 
     def ask_player_info(self) -> dict:
         player_informations = {}
         player_attrs = [
-            "first", 
-            "last", 
+            "first",
+            "last",
             "dob"
         ]
-       
+
         for item in player_attrs:
             user_input = input().lower()
             if user_input == "back":
@@ -38,8 +38,8 @@ class PlayerController:
         '''
         random.shuffle(players)
         return players
-    
-    def create_player(self, player_information: dict) -> Player: 
+
+    def create_player(self, player_information: dict) -> Player:
         ''' Function : create_player
 
             Parameters
@@ -51,10 +51,10 @@ class PlayerController:
             player: Player
                     player information
         '''
-        
+
         player = Player(player_information["first"], player_information["last"], player_information["dob"], 0)
         return player
-       
+
     def save_player(self, player: Player):
         ''' Function : save_player
 
@@ -72,7 +72,7 @@ class PlayerController:
         else:
             self.start()
         str(player)
-    
+
     def display_players(self):
         ''' Function : display_players
 

@@ -1,7 +1,7 @@
 
 class Player:
     """Joueur d'échec."""
-    
+
     def __init__(self, first: str, last: str, dob: str, score: int):
         """Initialise les informations de chaque joueur"""
         self.id = 0

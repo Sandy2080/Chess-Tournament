@@ -15,9 +15,8 @@ class Round:
 
     def make_pairs(self, round):
         print("save to db")
-    
+
     def save_match(self, pairs):
         print("save to db")
 
 
-       
