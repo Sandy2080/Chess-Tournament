@@ -1,10 +1,10 @@
 from tinydb import TinyDB, Query, where
-from datetime import date
+from datetime import datetime, timedelta
 from time import gmtime, strftime
 
 class Database:
     
-    def __init__():
+    def __init__(self):
         pass
 
     def insert_player_to_db(self, player):
@@ -102,16 +102,16 @@ class Database:
 
     def save_round_to_db(self, tournament_id, pairs):
         """Save new player to database """
+        tournaments = self.load_tournament_db()
+        tournament = tournaments[tournament_id - 1]
         rounds_db = TinyDB('data/rounds.json', indent=4, separators=(',', ': '))
-        rounds_db.all()
         round_id = len(rounds_db.all()) + 1
         round_id = rounds_db.insert({
             "tournament_id": tournament_id,
             "round_id": round_id,
-            "starting_date": str(date.today()),
-            "ending_date": "",
-            "starting_time":  str(strftime("%H:%M", gmtime())),
-            "ending_time": "",
+            "starting_date": tournament["starting_date"],
+            "starting_time":  datetime.now().strftime("%H:%M"),
+            "ending_time":  (datetime.now() + timedelta(minutes=30)).strftime("%H:%M"),
             "pairs": pairs
         })
         return round_id

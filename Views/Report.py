@@ -24,16 +24,19 @@ class ReportsView:
         """Display all tournaments to select
         @param tournaments: tournaments list
         """
-        print("\n" * 2 + "--- SELECT TOURNAMENT ---\n")
-
-        for i in range(len(tournaments)):
-            print(f"[{tournaments[i]['tournament_id']}]", end=' ')
-            print(tournaments[i]['name'], end=' | ')
-            print(tournaments[i]['location'], end=" | ")
-            print(tournaments[i]['description'], end=' | ')
-            print(f"Started on : {tournaments[i]['starting_date']}", end=' | ')
-            print(f"Ended on : {tournaments[i]['ending_date']}", end=' | ')
-            print(f"Round {tournaments[i]['current_round']-1}/{tournaments[i]['rounds_total']}")
-        print("\n\n Select Tournament :")  
+      
+        if len(tournaments) <= 0:
+            print("No tournaments to select")
+            print("Press [back] to go back to main menu")
+        else: 
+            print("\n" * 2 + "--- SELECT TOURNAMENT ---\n") 
+            for i in range(len(tournaments)):
+                print(f"[{i+1}]", end=' ')
+                print(tournaments[i]['name'], end=' | ')
+                print(tournaments[i]['location'], end=" | ")
+                print(f"Start : {tournaments[i]['starting_date']}", end=' | ')
+                print(f"End: {tournaments[i]['ending_date']}", end=' | ')
+                print(f"Round {tournaments[i]['current_round']-1}/{tournaments[i]['rounds_total']}")
+            print("\n\n Select Tournament :")  
         return input()
 
