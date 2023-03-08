@@ -1,6 +1,5 @@
-from sys import displayhook
 from prettytable import PrettyTable
-from Controllers.Database import Database
+from Models.Database import Database
 from Views.Menu import MenuView
 from Views.Report import ReportsView
 
@@ -43,11 +42,11 @@ class ReportsController:
         self.display_players(players, "by name")
 
     def all_players_by_score(self, players):
-        """Player report (sorted by rank)
+        """Player report (sorted by score)
         @param players: list of players
         """
         players = sorted(players, key=lambda x: x.get('score'), reverse=True)
-        self.display_players(players, "by rank")
+        self.display_players(players, "by score")
     
     def tournament_select(self):
         """Load all tournaments for selection
@@ -67,8 +66,8 @@ class ReportsController:
         tournament = tournaments[select_input - 1]
 
         print("****" + tournament['name'] + "****")
-        print("-" + tournament['location'])
-        print("-" + tournament['description'])
+        print("-location: " + tournament['location'])
+        print("-description:" + tournament['description'])
         print("- Started on :" + tournament['starting_date'])
         print("- Ended on :" + tournament['starting_date'])
     
@@ -84,11 +83,11 @@ class ReportsController:
        
         print("number of rounds in tournament " + tournament["name"] + ": " + str(len(tournament_rounds)))
         for _round in tournament_rounds:
-            print("**** Tournament: " + str(_round['name']) + "****")
+            print("**** Tournament: " + str(tournament['name']) + "****")
             print("------")
             print("- round :" + str(_round['round_id']))
             print("- Started on :" + _round['starting_date'])
-            print("- Ended on :" + _round['starting_date'])
+            print("- Ended on :" + _round['ending_date'])
     
     def display_tournament_report_players(self, select_input):
         """Display all tournaments to select

@@ -2,8 +2,10 @@ from tinydb import TinyDB, Query, where
 from datetime import date
 from time import gmtime, strftime
 
-
 class Database:
+    
+    def __init__():
+        pass
 
     def insert_player_to_db(self, player):
         """Save new player to database """

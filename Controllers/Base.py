@@ -5,7 +5,7 @@ from Views.Report import ReportsView
 from Views.Tournament import MenuTournamentView
 from Controllers.Tournament import TournamentController
 from Controllers.Player import PlayerController
-from Controllers.Database import Database
+from Models.Database import Database
 from Controllers.Report import ReportsController
  
 
@@ -59,7 +59,7 @@ class BaseController:
             players = self.playerController.select_randomly(players)
             players_pairs = self.tournamentController.create_round_and_select_players((players))
             players = self.tournamentController.black_or_white(players_pairs)
-            tournament = self.tournamentController.play_round(players)
+            tournament = self.tournamentController.play_match(players)
             tournament = self.tournamentController.save_tournament(tournament_informations, players_pairs)
             self.continueGame()   
         else:
@@ -97,7 +97,7 @@ class BaseController:
         tournaments = self.db.load_tournament_db()
         current_tournament = tournaments[-1]
         players_pairs = self.tournamentController.black_or_white(all_players)
-        self.tournamentController.play_round(players_pairs)
+        self.tournamentController.play_match(players_pairs)
         # change to update tournament
         self.tournamentController.save_tournament(current_tournament, players_pairs)
         self.continueGame()  

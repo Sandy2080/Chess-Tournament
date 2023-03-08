@@ -3,7 +3,7 @@ from datetime import date, timedelta
 from time import gmtime, strftime
 from Controllers.utilities import input_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL 
 
-from Controllers.Database import Database
+from Models.Database import Database
 from Views.Tournament import MenuTournamentView
 from Models.Tournament import Tournament
 from Models.Round import Round
@@ -105,7 +105,7 @@ class TournamentController:
             player[1]["color"] = "white" if colors[rand] == "black" else "black"
         return players_pairs
     
-    def play_round(self, players_pairs):
+    def play_match(self, players_pairs):
         for player in players_pairs:
             winner = random.randint(0, len(player))
             if winner == 2:
