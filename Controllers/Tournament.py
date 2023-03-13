@@ -2,9 +2,9 @@ import random
 from datetime import date, timedelta
 from time import gmtime, strftime
 
-from Models.Database import Database
 from Views.Tournament import MenuTournamentView
 from Models.Tournament import Tournament
+from Models.Player import Player
 from Models.Round import Round
 
 from Controllers.utilities import input_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL
@@ -13,7 +13,6 @@ class TournamentController:
 
     def __init__(self):
         self.tournament = Tournament()
-        self.db = Database()
 
     def create_tournament(self, tournament_information: dict) -> Tournament:
         ''' Function : create_tournament
@@ -49,15 +48,15 @@ class TournamentController:
         players = []
         if user_input == "1":
             # interroger bd pour current tournament
-            tournament_id = self.db.save_tournament_to_db(tournament, pairs)
-            round_id = self.db.save_round_to_db(tournament_id, pairs)
-            self.db.update_tournament_db(tournament_id, round_id)
+            tournament_id = self.tournament.save_tournament_to_db(tournament, pairs)
+            round_id = self.tournament.save_round_to_db(tournament_id, pairs)
+            Tournament.update_tournament_db(tournament_id, round_id)
 
             # update scores
             for pair in pairs:
                 [player_1, player_2] = pair
-                self.db.update_player_score(player_1)
-                self.db.update_player_score(player_2)
+                Player.update_player_score(player_1)
+                Player.update_player_score(player_2)
                 players.append(player_1)
                 players.append(player_2)
 
@@ -69,7 +68,7 @@ class TournamentController:
 
     def update_tournament(self, tournament, round_id):
         _tournament = tournament[-1]
-        self.db.update_tournament_db(_tournament["tournament_id"], round_id)
+        Tournament.update_tournament_db(_tournament["tournament_id"], round_id)
         return tournament
 
     def ask_tournament_info(self) -> dict:
@@ -85,7 +84,7 @@ class TournamentController:
             ----------
             dict: tournament informations
         '''
-        tournaments = self.db.load_tournament_db()
+        tournaments = Tournament.load_tournament_db()
         _id = len(tournaments) + 1
         tournament_information = {}
         tournament_attrs = [
@@ -146,8 +145,8 @@ class TournamentController:
         tournament = self.tournament.serialize()
         return tournament
 
-    def create_round_and_select_players(self, players: list) -> list:
-        ''' Function : create_round_and_select_players
+    def select_players(self, players: list) -> list:
+        ''' Function : select_players
             Match players randomly and play first round
 
             Parameters
@@ -159,10 +158,6 @@ class TournamentController:
             dict: players_pairs
         '''
         players_pairs = []
-        today = date.today()
-        rounds = self.db.load_round_db()
-        current_round = len(rounds) + 1
-        Round(current_round, str(today), "", str(strftime("%H:%M", gmtime())), "", players)
         i = 0
         while i < len(players) - 1:
             players_pairs.append((players[i], players[i+1]))
@@ -184,10 +179,10 @@ class TournamentController:
         '''
         score_sorted_players = sorted(players, key=lambda x: x["score"], reverse=True)
 
-        players = self.db.remove_records(score_sorted_players)
+        players = Player.remove_records(score_sorted_players)
 
         for player in score_sorted_players:
-            self.db.insert_player_to_db(player)
+            Player.insert_player_to_db(player)
 
 
 

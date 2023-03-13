@@ -1,20 +1,19 @@
 from prettytable import PrettyTable
-from Models.Database import Database
 from Views.Report import ReportsView
-
+from Models.Round import Round
+from Models.Tournament import Tournament
 
 class ReportsController:
 
     def __init__(self):
-        self.db = Database()
         self.table = PrettyTable()
 
     def return_tournament_rounds(self, input):
         number_input = int(input)
-        tournaments = self.db.load_tournament_db()
+        tournaments = Tournament.load_tournament_db()
         tournament = tournaments[number_input - 1]
         tournament_id = tournament["tournament_id"]
-        rounds = self.db.load_round_db()
+        rounds = Round.load_round_db()
         tournament_rounds = list(filter(lambda r: r["tournament_id"] == tournament_id, rounds))
         return tournament, tournament_rounds
 
@@ -131,7 +130,7 @@ class ReportsController:
         ]
 
         tournament, _ = self.return_tournament_rounds(select_input)
-        rounds = self.db.load_round_db()
+        rounds = Round.load_round_db()
         _round = rounds[select_input - 1]
         pairs = _round['pairs']
 
@@ -232,7 +231,7 @@ class ReportsController:
             "Score P2",
         ]
 
-        rounds = self.db.load_round_db()
+        rounds = Round.load_round_db()
         _round = rounds[len(rounds) - 1]
         pairs = _round['pairs']
 
