@@ -95,40 +95,34 @@
                class="code sev- "><tt><i>26</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== ***** ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></tt>
             </div>
             <div id="l27"
-               class="code sev- "><tt><i>27</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Tournament : &quot;</span> <span class="o">+</span> <span class="n">current_tournament</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span></tt>
+               class="code sev- "><tt><i>27</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ready to go to the next round ?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></tt>
             </div>
             <div id="l28"
-               class="code sev- "><tt><i>28</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Current round: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">current_round</span><span class="p">[</span><span class="s2">&quot;round_id&quot;</span><span class="p">]))</span></tt>
+               class="code sev- "><tt><i>28</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== MENU ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></tt>
             </div>
             <div id="l29"
-               class="code sev- "><tt><i>29</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ready to go to the next round ?</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>29</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[1] YES&quot;</span><span class="p">)</span></tt>
             </div>
             <div id="l30"
-               class="code sev- "><tt><i>30</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">=== MENU ===</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>30</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[2] EXIT&quot;</span><span class="p">)</span></tt>
             </div>
             <div id="l31"
-               class="code sev- "><tt><i>31</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[1] YES&quot;</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>31</i> &nbsp;</tt>
             </div>
             <div id="l32"
-               class="code sev- "><tt><i>32</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[2] EXIT&quot;</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>32</i>     <span class="k">def</span> <span class="nf">input_prompt_text</span><span class="p">(</span><span class="n">option</span><span class="p">):</span></tt>
             </div>
             <div id="l33"
-               class="code sev- "><tt><i>33</i> &nbsp;</tt>
+               class="code sev- "><tt><i>33</i>         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Enter </span><span class="si">{</span><span class="n">option</span><span class="si">}</span><span class="s2"> (type [back] for main menu) : &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></tt>
             </div>
             <div id="l34"
-               class="code sev- "><tt><i>34</i>     <span class="k">def</span> <span class="nf">input_prompt_text</span><span class="p">(</span><span class="n">option</span><span class="p">):</span></tt>
+               class="code sev- "><tt><i>34</i> &nbsp;</tt>
             </div>
             <div id="l35"
-               class="code sev- "><tt><i>35</i>         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Enter </span><span class="si">{</span><span class="n">option</span><span class="si">}</span><span class="s2"> (type [back] for main menu) : &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>35</i>     <span class="k">def</span> <span class="nf">input_prompt</span><span class="p">():</span></tt>
             </div>
             <div id="l36"
-               class="code sev- "><tt><i>36</i> &nbsp;</tt>
-            </div>
-            <div id="l37"
-               class="code sev- "><tt><i>37</i>     <span class="k">def</span> <span class="nf">input_prompt</span><span class="p">():</span></tt>
-            </div>
-            <div id="l38"
-               class="code sev- "><tt><i>38</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Type [option] and press Enter : &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></tt>
+               class="code sev- "><tt><i>36</i>         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Type [option] and press Enter : &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span></tt>
             </div>
             
          </div>

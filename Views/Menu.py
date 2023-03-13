@@ -24,8 +24,6 @@ class MenuView:
 
     def main_menu_extra(current_tournament, current_round):
         print("\n=== ***** ===\n")
-        print("- Tournament : " + current_tournament["name"].upper())
-        print("- Current round: " + str(current_round["round_id"]))
         print("Ready to go to the next round ?\n")
         print("\n=== MENU ===\n")
         print("[1] YES")

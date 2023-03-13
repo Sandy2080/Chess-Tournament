@@ -1,7 +1,7 @@
 ![chess_club](img/header.png)
 
 # Projet 4 : **Chess Game**
-***Projet 4 du parcours D-A Python d'OpenClassrooms : application de gestion de tournoi d'échecs avec base de données.***
+***Projet 4 Python d'OpenClassrooms : application de gestion de tournoi d'échecs avec base de données.***
 
 ## Table des matières
 
@@ -31,9 +31,9 @@ Dans le terminal, naviguer vers le dossier souhaité.
 
 ###### Activer l'environnement virtuel
     $ cd chess-game-2
-    $ python -m venv env 
+    $ python -m venv env
     $ ~env\bin\activate
-    
+
 ###### Installer les paquets requis
     $ pip install -r requirements.txt
 

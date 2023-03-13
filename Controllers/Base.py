@@ -8,6 +8,7 @@ from Controllers.Player import PlayerController
 from Models.Database import Database
 from Controllers.Report import ReportsController
 
+
 class BaseController:
 
     def __init__(self):
@@ -44,6 +45,7 @@ class BaseController:
         tournaments = self.db.load_tournament_db()
         current_tournament = tournaments[-1]
         if round_id <= 4:
+            self.reportsController.display_tournament_match_report(current_tournament["tournament_id"])
             self.resume_tournament(current_tournament, current_round)
         else:
             self.start()
@@ -60,8 +62,12 @@ class BaseController:
             players = self.tournamentController.black_or_white(players_pairs)
             tournament = self.tournamentController.play_match(players)
             tournament = self.tournamentController.save_tournament(tournament_informations, players_pairs)
+            self.reportsController.display_tournament_intermediate_report(tournament_informations)
             self.continueGame()
         else:
+            print("\n END TOURNAMENT \n")
+            tournaments = self.db.load_tournament_db()
+            self.reportsController.display_tournament_report_players(len(tournaments))
             self.start()
 
     def resume_tournament(self, tournament, round):
@@ -117,7 +123,6 @@ class BaseController:
             if return_input != "back":
                 self.reportsController.display_tournament_report(return_input)
             self.start()
-
         elif user_input == "3":
             return_input = self.reportsController.tournament_select()
             if return_input != "back":

@@ -10,13 +10,13 @@ class ReportsController:
         self.table = PrettyTable()
 
     def return_tournament_rounds(self, input):
+        number_input = int(input)
         tournaments = self.db.load_tournament_db()
-        tournament = tournaments[input - 1]
+        tournament = tournaments[number_input - 1]
         tournament_id = tournament["tournament_id"]
         rounds = self.db.load_round_db()
         tournament_rounds = list(filter(lambda r: r["tournament_id"] == tournament_id, rounds))
         return tournament, tournament_rounds
-
 
     def display_players(self, players: list, sorting: str):
         """Print players reports """
@@ -130,12 +130,12 @@ class ReportsController:
             "Score P2",
         ]
 
-        tournament, _ = self.return_tournament_rounds(int(select_input))
+        tournament, _ = self.return_tournament_rounds(select_input)
         rounds = self.db.load_round_db()
-        _round = rounds[int(select_input)]
+        _round = rounds[select_input - 1]
         pairs = _round['pairs']
 
-        print("You selected round # " + select_input)
+        print("You selected round # " + str(select_input))
         self.display_header(tournament, _round)
         for pair in pairs:
             first_1 = pair[0]["last"].capitalize()
@@ -148,7 +148,7 @@ class ReportsController:
             player_2 = last_2 + ", " + first_2
             score_2 = pair[1]["score"]
             self.table.add_row([
-                _round['round_id'],
+                tournament['current_round'],
                 player_1,
                 score_1,
                 "vs",
@@ -173,15 +173,15 @@ class ReportsController:
         self.table.clear()
         self.table.field_names = [
             "Player",
-            "First",
             "Last",
+            "First",
             "Dob",
             "Genre",
             "Color",
-            "Score"
-            ""
+            "Score",
+            " "
         ]
-        tournament, tournament_rounds = self.return_tournament_rounds(int(select_input))
+        tournament, tournament_rounds = self.return_tournament_rounds(select_input)
         players = tournament["players"]
         print("\n ====================\n Tournament: " + str(tournament['name']) + " / location : " + tournament['location'] + "\n ==================== \n")
         print(" -number of rounds :" + str(len(tournament_rounds)))
@@ -199,7 +199,6 @@ class ReportsController:
                 "---",
                 "---"
             ])
-
             self.table.add_row([
                 "Player 1",
                 pair[0]["last"].upper(),
@@ -222,6 +221,45 @@ class ReportsController:
             ])
         print(self.table)
 
+    def display_tournament_intermediate_report(self, tournament_info):
+        self.table.clear()
+        self.table.field_names = [
+            "Round #",
+            "Player 1",
+            "Score P1",
+            "",
+            "Player 2",
+            "Score P2",
+        ]
+
+        rounds = self.db.load_round_db()
+        _round = rounds[len(rounds) - 1]
+        pairs = _round['pairs']
+
+        tournament_info["current_round"] = len(rounds) - 1
+        tournament_info["rounds_total"] = 4
+        print("\n ==== END round # " + str(len(rounds)) + " ==== \n")
+        self.display_header(tournament_info, _round)
+        for pair in pairs:
+            first_1 = pair[0]["last"].capitalize()
+            last_1 = pair[0]["first"]
+            player_1 = last_1 + ", " + first_1
+            score_1 = pair[0]["score"]
+
+            first_2 = pair[1]["last"].capitalize()
+            last_2 = pair[1]["first"]
+            player_2 = last_2 + ", " + first_2
+            score_2 = pair[1]["score"]
+            self.table.add_row([
+                tournament_info['current_round'],
+                player_1,
+                score_1,
+                "vs",
+                player_2,
+                score_2,
+            ])
+        print(self.table)
+
     def display_header(self, tournament, round):
         """Header for tournament reports
         @param info: tournament (dict)
@@ -229,6 +267,6 @@ class ReportsController:
         h_1 = f"Tournoi: {tournament['name'].upper()}, Location: {tournament['location']} | Description : {tournament['description']}"
         h_2 = \
             f"Start date : {round['starting_date']} | " \
-            f"Round  : {tournament['current_round']-1}/{tournament['rounds_total']}"
+            f"Round  : {tournament['current_round']}/{tournament['rounds_total']}"
         print(h_1)
         print(h_2)
