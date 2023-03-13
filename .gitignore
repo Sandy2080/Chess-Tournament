@@ -8,6 +8,7 @@ __pycache__
 # reports
 /flake-report
 /flake8_report
+.flake8
 
 # virtual env
 /env
