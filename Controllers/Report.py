@@ -57,7 +57,7 @@ class ReportsController:
         """Load all tournaments for selection
         @return: user selection, list of all tournaments
         """
-        tournaments = self.db.load_tournament_db()
+        tournaments = Tournament.load_tournament_db()
         user_input = ReportsView.reports_tournaments(tournaments)
         if user_input == "back":
             return "back"
@@ -75,7 +75,7 @@ class ReportsController:
             "Start Date",
             "End Date",
         ]
-        tournaments = self.db.load_tournament_db()
+        tournaments = Tournament.load_tournament_db()
         tournament = tournaments[select_input - 1]
 
         print("you selected tournament #: " + str(select_input + 1))
@@ -134,7 +134,6 @@ class ReportsController:
         _round = rounds[select_input - 1]
         pairs = _round['pairs']
 
-        print("You selected round # " + str(select_input))
         self.display_header(tournament, _round)
         for pair in pairs:
             first_1 = pair[0]["last"].capitalize()
@@ -175,7 +174,6 @@ class ReportsController:
             "Last",
             "First",
             "Dob",
-            "Genre",
             "Color",
             "Score",
             " "
@@ -195,7 +193,6 @@ class ReportsController:
                 "---",
                 "---",
                 "---",
-                "---",
                 "---"
             ])
             self.table.add_row([
@@ -203,7 +200,6 @@ class ReportsController:
                 pair[0]["last"].upper(),
                 pair[0]["first"],
                 pair[0]["dob"],
-                pair[0]["genre"],
                 pair[0]["color"],
                 pair[0]["score"],
                 self.return_winner(pair[0], pair[1])
@@ -213,7 +209,6 @@ class ReportsController:
                 pair[1]["last"].upper(),
                 pair[1]["first"],
                 pair[1]["dob"],
-                pair[1]["genre"],
                 pair[1]["color"],
                 pair[1]["score"],
                 self.return_winner(pair[1], pair[0])
