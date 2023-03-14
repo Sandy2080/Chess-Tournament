@@ -71,7 +71,7 @@ class Tournament:
     def update_tournament_db(tournament_id, round_id):
         tournaments_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
         tournament = Query()
-        tournaments_db.update({"current_round": str(round_id)}, tournament.id == tournament_id)
+        tournaments_db.update({"current_round": round_id}, tournament.tournament_id == tournament_id)
 
     def save_round_to_db(self, tournament_id, pairs):
         """Save new player to database """

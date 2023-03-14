@@ -45,8 +45,8 @@ class BaseController:
         round_id = current_round["round_id"]
         tournaments = Tournament.load_tournament_db()
         current_tournament = tournaments[-1]
-        if round_id <= 4:
-            self.reportsController.display_tournament_match_report(current_tournament["tournament_id"])
+        self.reportsController.display_tournament_match_report(current_tournament["tournament_id"])
+        if round_id < 4:
             self.resume_tournament(current_tournament, current_round)
         else:
             self.start()
@@ -102,10 +102,12 @@ class BaseController:
         all_players = self.round.load_pairs()
         tournaments = Tournament.load_tournament_db()
         current_tournament = tournaments[-1]
+        tournament_id = current_tournament["tournament_id"]
         players_pairs = self.tournamentController.black_or_white(all_players)
         self.tournamentController.play_match(players_pairs)
         # change to update tournament
-        self.tournamentController.save_tournament(current_tournament, players_pairs)
+        round_id = self.tournament.save_round_to_db(tournament_id, players_pairs)
+        Tournament.update_tournament_db(current_tournament["tournament_id"], round_id)
         self.continueGame()
 
     def create_player(self):

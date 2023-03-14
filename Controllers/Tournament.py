@@ -66,11 +66,6 @@ class TournamentController:
         elif user_input == "2":
             return None
 
-    def update_tournament(self, tournament, round_id):
-        _tournament = tournament[-1]
-        Tournament.update_tournament_db(_tournament["tournament_id"], round_id)
-        return tournament
-
     def ask_tournament_info(self) -> dict:
         ''' Function : ask_tournament_info
             Ask for the tournament informations
