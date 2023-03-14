@@ -63,8 +63,8 @@ class Player:
         @return: list of players
         """
         players_db = TinyDB('data/players.json', indent=4, separators=(',', ': '))
-        _player = Query()
-        players_db.update({"score": player["score"]}, player["id"] == _player.id)
+        q = Query()
+        players_db.update({"score": player["score"]}, q.id == player["id"])
 
     def __str__(self):
         """Retourne une instance de player."""

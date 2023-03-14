@@ -106,6 +106,13 @@ class BaseController:
         players_pairs = self.tournamentController.black_or_white(all_players)
         self.tournamentController.play_match(players_pairs)
         # change to update tournament
+
+         # update scores
+        for pair in players_pairs:
+            [player_1, player_2] = pair
+            Player.update_player_score(player_1)
+            Player.update_player_score(player_2)
+
         round_id = self.tournament.save_round_to_db(tournament_id, players_pairs)
         Tournament.update_tournament_db(current_tournament["tournament_id"], round_id)
         self.continueGame()
