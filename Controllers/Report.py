@@ -1,6 +1,7 @@
 from prettytable import PrettyTable
 from Views.Report import ReportsView
 from Models.Round import Round
+from Models.Player import Player
 from Models.Tournament import Tournament
 
 class ReportsController:
@@ -131,7 +132,8 @@ class ReportsController:
 
         tournament, _ = self.return_tournament_rounds(select_input)
         rounds = Round.load_round_db()
-        _round = rounds[select_input - 1]
+        print(rounds)
+        _round = rounds[-1]
         pairs = _round['pairs']
 
         self.display_header(tournament, _round)
@@ -251,6 +253,28 @@ class ReportsController:
                 "vs",
                 player_2,
                 score_2,
+            ])
+        print(self.table)
+
+    def display_ranking_report(self):
+        self.table.clear()
+        self.table.field_names = [
+            "Player",
+            "Score",
+            "Rank",
+        ]
+
+        players = Player.load_players_db()
+        for player in players:
+            first = player["last"].capitalize()
+            last = player["first"]
+            fullName = first + ", " + last
+            score = player["score"]
+
+            self.table.add_row([
+                fullName,
+                score,
+                0
             ])
         print(self.table)
 

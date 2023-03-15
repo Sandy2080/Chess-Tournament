@@ -49,27 +49,27 @@ class BaseController:
         if round_id < 4:
             self.resume_tournament(current_tournament, current_round)
         else:
+            print("\n END TOURNAMENT \n")
+            tournaments = Tournament.load_tournament_db()
+            self.reportsController.display_tournament_report_players(len(tournaments))
+            self.reportsController.display_ranking_report()
+            Tournament.save_tournament_rounds(current_tournament["tournament_id"])
+
             self.start()
 
     def create_tournament(self):
         """Create new tournament"""
         players = Player.load_players_db()
         tournament_informations = self.tournamentController.ask_tournament_info()
-        tournament = self.tournamentController.create_tournament(tournament_informations)
+        self.tournamentController.create_tournament(tournament_informations)
 
-        if tournament is not None:
-            players = self.playerController.select_randomly(players)
-            players_pairs = self.tournamentController.select_players((players))
-            players = self.tournamentController.black_or_white(players_pairs)
-            tournament = self.tournamentController.play_match(players)
-            tournament = self.tournamentController.save_tournament(tournament_informations, players_pairs)
-            self.reportsController.display_tournament_intermediate_report(tournament_informations)
-            self.continueGame()
-        else:
-            print("\n END TOURNAMENT \n")
-            tournaments = Tournament.load_tournament_db()
-            self.reportsController.display_tournament_report_players(len(tournaments))
-            self.start()
+        players = self.playerController.select_randomly(players)
+        players_pairs = self.tournamentController.select_players((players))
+        players = self.tournamentController.black_or_white(players_pairs)
+        self.tournamentController.play_match(players)
+        self.tournamentController.save_tournament(tournament_informations, players_pairs)
+        self.reportsController.display_tournament_intermediate_report(tournament_informations)
+        self.continueGame()
 
     def resume_tournament(self, tournament, round):
         MenuView.main_menu_extra(tournament, round)
@@ -107,7 +107,7 @@ class BaseController:
         self.tournamentController.play_match(players_pairs)
         # change to update tournament
 
-         # update scores
+        # update scores
         for pair in players_pairs:
             [player_1, player_2] = pair
             Player.update_player_score(player_1)

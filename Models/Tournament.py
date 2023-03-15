@@ -1,5 +1,6 @@
 from tinydb import TinyDB, Query, where
 from datetime import datetime, timedelta
+import os
 
 from Models.Round import Round
 class Tournament:
@@ -58,6 +59,7 @@ class Tournament:
             "current_round": round_id,
             "description": informations["description"],
             "players": pairs,
+            "rounds": []
         })
         return informations["tournament_id"]
 
@@ -88,4 +90,14 @@ class Tournament:
             "pairs": pairs
         })
         return round_id
+
+    @staticmethod
+    def save_tournament_rounds(tournament_id):
+        """save tournament rounds
+        """
+        rounds = Round.load_round_db()
+        tournament_db = TinyDB('data/tournaments.json', indent=4, separators=(',', ': '))
+        q = Query()
+        tournament_db.update({"rounds": rounds}, q.tournament_id == tournament_id)
+        os.remove("data/rounds.json")
 
