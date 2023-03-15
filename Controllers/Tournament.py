@@ -1,13 +1,12 @@
 import random
 from datetime import date, timedelta
-from tinydb import TinyDB, Query, where
 
 from Views.Tournament import MenuTournamentView
 from Models.Tournament import Tournament
 from Models.Player import Player
-from Models.Round import Round
 
 from utilities import input_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL
+
 
 class TournamentController:
 
@@ -65,14 +64,6 @@ class TournamentController:
             return tournament
         elif user_input == "2":
             return None
-
-    def save_tournament_rounds(self, tournament_id):
-        """save tournament rounds
-        """
-        rounds = Round.load_round_db()
-        tournament_db = TinyDB('data/players.json', indent=4, separators=(',', ': '))
-        q = Query()
-        tournament_db.update({"rounds": rounds}, q.tournament_id == tournament_id)
 
     def ask_tournament_info(self) -> dict:
         ''' Function : ask_tournament_info

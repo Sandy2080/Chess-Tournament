@@ -1,8 +1,10 @@
-from tinydb import TinyDB, Query, where
+from tinydb import TinyDB, Query
 from datetime import datetime, timedelta
 import os
 
 from Models.Round import Round
+
+
 class Tournament:
     """Tournoi d'échec."""
 
@@ -34,7 +36,6 @@ class Tournament:
 
     def toObject(self, informations: dict):
         """ Converts to Tournament object """
-        print(informations)
         self.tournament_id = informations["tournament_id"]
         self.name = informations["name"]
         self.location = informations["location"]

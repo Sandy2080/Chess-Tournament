@@ -3,7 +3,8 @@
 __pycache__
 
 # persisted data
-/data
+/data/rounds.json
+/data/tournaments.json
 
 # reports
 /flake-report

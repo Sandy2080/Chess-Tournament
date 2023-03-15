@@ -4,6 +4,7 @@ from Views.Menu import MenuView
 from Views.Player import MenuPlayerView
 from Models.Player import Player
 
+
 class PlayerController:
 
     def __init__(self):

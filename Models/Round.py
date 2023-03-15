@@ -1,4 +1,5 @@
-from tinydb import TinyDB, Query, where
+from tinydb import TinyDB
+
 
 class Round:
     """Tour d'échec."""

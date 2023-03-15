@@ -8,6 +8,7 @@ header = bcolors["header"]
 white = bcolors["white"]
 yellow = bcolors["yellow"]
 
+
 class MenuView:
 
     def __init__(self):

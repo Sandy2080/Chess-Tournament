@@ -116,7 +116,7 @@ class ReportsController:
 
         tournament, tournament_rounds = self.return_tournament_rounds(select_input)
 
-        print("\n ====================\n Tournament: " + str(tournament['name']) + "\n ==================== \n")
+        print(white + "\n ====================\n Tournament: " + str(tournament['name']) + "\n ==================== \n" + white)
         print(" -number of rounds :" + str(len(tournament_rounds)))
 
         for _round in tournament_rounds:
@@ -145,7 +145,6 @@ class ReportsController:
 
         tournament, _ = self.return_tournament_rounds(select_input)
         rounds = Round.load_round_db()
-        print(rounds)
         _round = rounds[-1]
         pairs = _round['pairs']
 
@@ -305,3 +304,4 @@ class ReportsController:
             f"{cyan} Round  : {tournament['current_round']}/{tournament['rounds_total']} {cyan}"
         print(h_1)
         print(h_2)
+        print(white)
