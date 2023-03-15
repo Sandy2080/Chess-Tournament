@@ -3,11 +3,13 @@ from Views.Report import ReportsView
 from Models.Round import Round
 from Models.Player import Player
 from Models.Tournament import Tournament
+from Controllers.Tournament import TournamentController
 
 class ReportsController:
 
     def __init__(self):
         self.table = PrettyTable()
+        self.tournamentController = TournamentController()
 
     def return_tournament_rounds(self, input):
         number_input = int(input)
@@ -265,7 +267,11 @@ class ReportsController:
         ]
 
         players = Player.load_players_db()
-        for player in players:
+        sorted_players = sorted(players, key=lambda x: x["score"], reverse=True)
+
+        rank = 0
+        for player in sorted_players:
+            rank += 1
             first = player["last"].capitalize()
             last = player["first"]
             fullName = first + ", " + last
@@ -274,7 +280,7 @@ class ReportsController:
             self.table.add_row([
                 fullName,
                 score,
-                0
+                rank
             ])
         print(self.table)
 
