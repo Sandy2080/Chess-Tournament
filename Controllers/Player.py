@@ -1,5 +1,5 @@
 import random
-from Controllers.utilities import input_text_field
+from utilities import input_text_field
 from Views.Menu import MenuView
 from Views.Player import MenuPlayerView
 from Models.Player import Player

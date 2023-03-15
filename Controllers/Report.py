@@ -5,6 +5,17 @@ from Models.Player import Player
 from Models.Tournament import Tournament
 from Controllers.Tournament import TournamentController
 
+
+from utilities import bcolors
+
+blue = bcolors["blue"]
+cyan = bcolors["cyan"]
+green = bcolors["green"]
+header = bcolors["header"]
+white = bcolors["white"]
+yellow = bcolors["yellow"]
+
+
 class ReportsController:
 
     def __init__(self):
@@ -288,9 +299,9 @@ class ReportsController:
         """Header for tournament reports
         @param info: tournament (dict)
         """
-        h_1 = f"Tournoi: {tournament['name'].upper()}, Location: {tournament['location']} | Description : {tournament['description']}"
+        h_1 = f"{cyan} ♝ ♖ Tournoi: {tournament['name'].upper()}, Location: {tournament['location']} | Description : {tournament['description']} {cyan}"
         h_2 = \
-            f"Start date : {round['starting_date']} | " \
-            f"Round  : {tournament['current_round']}/{tournament['rounds_total']}"
+            f"{cyan} Start date : {round['starting_date']} | {cyan}" \
+            f"{cyan} Round  : {tournament['current_round']}/{tournament['rounds_total']} {cyan}"
         print(h_1)
         print(h_2)

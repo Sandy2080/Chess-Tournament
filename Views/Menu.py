@@ -1,3 +1,13 @@
+from utilities import bcolors
+
+
+blue = bcolors["blue"]
+cyan = bcolors["cyan"]
+green = bcolors["green"]
+header = bcolors["header"]
+white = bcolors["white"]
+yellow = bcolors["yellow"]
+
 class MenuView:
 
     def __init__(self):
@@ -14,19 +24,19 @@ class MenuView:
         Returns:
             menu_value (str): user choice
         """
-        print("\n\n====== MAIN MENU ======")
-        print("[1] Create new tournament")
-        print("[2] Create new player")
-        print("[3] Reports")
-        print("[4] Quit")
-        menu_selection = input('\nType [option] and press ENTER :')
+        print(white + "\n\n====== MAIN MENU ======" + white)
+        print(green + "[1] ♟️ Create new tournament" + green)
+        print(yellow + "[2] Create new player" + yellow)
+        print(cyan + "[3] Reports" + cyan)
+        print(header + "[4] Quit" + header)
+        menu_selection = input(white + '\nType [option] and press ENTER :' + white)
         return menu_selection
 
     def main_menu_extra(current_tournament, current_round):
-        print("Ready to go to the next round ?")
+        print(white + "Ready to go to the next round ?" + white)
         print("round:" + str(current_round["round_id"] + 1))
-        print("[1] YES")
-        print("[2] EXIT")
+        print(green + "[1] YES" + green)
+        print(header + "[2] EXIT" + header)
 
     def input_prompt_text(option):
         print(f"\nEnter {option} (type [back] for main menu) : ", end='')

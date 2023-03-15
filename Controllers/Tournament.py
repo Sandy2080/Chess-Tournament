@@ -7,7 +7,7 @@ from Models.Tournament import Tournament
 from Models.Player import Player
 from Models.Round import Round
 
-from Controllers.utilities import input_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL
+from utilities import input_text_field, SCORE_LOOSER, SCORE_WINNER, SCORE_NULL
 
 class TournamentController:
 
