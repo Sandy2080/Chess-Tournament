@@ -20,5 +20,3 @@ class RoundView:
         print("[4] Quit")
         menu_selection = input('enter menu option :')
         return menu_selection
-
-

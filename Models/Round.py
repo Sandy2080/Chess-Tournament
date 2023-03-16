@@ -41,5 +41,3 @@ class Round:
         all_rounds = rounds_db.all()
         _round = all_rounds[-1]
         return _round["pairs"]
-
-

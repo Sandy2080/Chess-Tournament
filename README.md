@@ -51,7 +51,7 @@ Dans le terminal, naviguer vers le dossier souhaité.
 
 **Vous trouverez le rapport dans le dossier _'flake8-report'_.**
 
-_Dernier rapport exporté :_
+_Dernier rapport flake-8 :_
 
 ![latest_report](img/flake8_report.png)
 

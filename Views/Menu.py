@@ -44,4 +44,3 @@ class MenuView:
 
     def input_prompt():
         print("\nType [option] and press Enter : ", end='')
-

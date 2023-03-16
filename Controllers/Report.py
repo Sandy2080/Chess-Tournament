@@ -92,10 +92,10 @@ class ReportsController:
 
         print("you selected tournament #: " + str(select_input + 1))
         self.table.add_row([
-                tournament['name'],
-                tournament['location'],
-                tournament['starting_date'],
-                tournament['ending_date']
+            tournament['name'],
+            tournament['location'],
+            tournament['starting_date'],
+            tournament['ending_date']
         ])
         print(self.table)
 
@@ -114,7 +114,8 @@ class ReportsController:
 
         tournament, tournament_rounds = self.return_tournament_rounds(select_input)
 
-        print(white + "\n ====================\n Tournament: " + str(tournament['name']) + "\n ==================== \n" + white)
+        print(white + "\n ====================\n Tournament: " +
+              str(tournament['name']) + "\n ==================== \n" + white)
         print(" -number of rounds :" + str(len(tournament_rounds)))
 
         for _round in tournament_rounds:
@@ -192,7 +193,8 @@ class ReportsController:
         ]
         tournament, rounds = self.return_tournament_rounds(select_input)
         players = tournament["players"]
-        print("\n ====================\n Tournament: " + str(tournament['name']) + " / location : " + tournament['location'] + "\n ==================== \n")
+        print("\n ====================\n Tournament: " +
+              str(tournament['name']) + " / location : " + tournament['location'] + "\n ==================== \n")
         print(" -number of rounds :" + str(len(rounds)))
 
         i = 0
@@ -296,10 +298,12 @@ class ReportsController:
         """Header for tournament reports
         @param info: tournament (dict)
         """
-        h_1 = f"{cyan} ♝ ♖ Tournoi: {tournament['name'].upper()}, Location: {tournament['location']} | Description : {tournament['description']} {cyan}"
-        h_2 = \
+        h_1 = f"{cyan} ♝ ♖ Tournoi: {tournament['name'].upper()}"
+        h_2 = f"{cyan} Location: {tournament['location']} | Description : {tournament['description']} {cyan}"
+        h_3 = \
             f"{cyan} Start date : {round['starting_date']} | {cyan}" \
             f"{cyan} Round  : {tournament['current_round']}/{tournament['rounds_total']} {cyan}"
         print(h_1)
         print(h_2)
+        print(h_3)
         print(white)

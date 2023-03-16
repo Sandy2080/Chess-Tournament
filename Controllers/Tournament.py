@@ -177,6 +177,3 @@ class TournamentController:
 
         for player in score_sorted_players:
             Player.insert_player_to_db(player)
-
-
-

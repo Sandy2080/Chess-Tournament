@@ -101,4 +101,3 @@ class Tournament:
         q = Query()
         tournament_db.update({"rounds": rounds}, q.tournament_id == tournament_id)
         os.remove("data/rounds.json")
-

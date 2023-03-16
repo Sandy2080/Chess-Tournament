@@ -45,4 +45,3 @@ class ReportsView:
                 print(f"Round {tournaments[i]['current_round']-1}/{tournaments[i]['rounds_total']}")
             print("\nSelect Tournament :")
         return input()
-
