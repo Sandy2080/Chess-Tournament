@@ -72,14 +72,18 @@ _Dernier rapport exporté :_
 
 ## 3. Exemples de rapports
 #### Rapport des rondes :
-![round_report](img/rounds_report.png)
+![sélectionner tournoi](img/select_tournament.png)
+![rapport des rondes](img/rounds_report.png)
 
-#### Matchs d'une ronde :
-![round](img/match_round.png)
+#### fin de ronde et *match* entre pairs :
+![fin de ronde et matchs](img/match_round.png)
+
+#### fin de tournoi :
+![fin de tournoi](img/end_tournament_1.png)
+![fin de tournoi](img/end_tournament_2.png)
 
 #### Rapport des joueurs :
 ![player_report](img/players_report_by-name.png)
-
 ![player_report](img/players_report_by-score.png)
 
 

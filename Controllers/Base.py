@@ -68,7 +68,7 @@ class BaseController:
         players = self.tournamentController.black_or_white(players_pairs)
         self.tournamentController.play_match(players)
         self.tournamentController.save_tournament(tournament_informations, players_pairs)
-        self.reportsController.display_tournament_intermediate_report(tournament_informations)
+        # self.reportsController.display_tournament_intermediate_report(tournament_informations)
         self.continueGame()
 
     def resume_tournament(self, tournament, round):

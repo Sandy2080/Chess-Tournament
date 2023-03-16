@@ -26,10 +26,8 @@ class ReportsController:
         number_input = int(input)
         tournaments = Tournament.load_tournament_db()
         tournament = tournaments[number_input - 1]
-        tournament_id = tournament["tournament_id"]
-        rounds = Round.load_round_db()
-        tournament_rounds = list(filter(lambda r: r["tournament_id"] == tournament_id, rounds))
-        return tournament, tournament_rounds
+        rounds = tournament["rounds"]
+        return tournament, rounds
 
     def display_players(self, players: list, sorting: str):
         """Print players reports """
@@ -147,7 +145,7 @@ class ReportsController:
         rounds = Round.load_round_db()
         _round = rounds[-1]
         pairs = _round['pairs']
-
+        print("\n ==== END round # " + str(len(rounds)) + " ==== \n")
         self.display_header(tournament, _round)
         for pair in pairs:
             first_1 = pair[0]["last"].capitalize()
@@ -192,10 +190,10 @@ class ReportsController:
             "Score",
             " "
         ]
-        tournament, tournament_rounds = self.return_tournament_rounds(select_input)
+        tournament, rounds = self.return_tournament_rounds(select_input)
         players = tournament["players"]
         print("\n ====================\n Tournament: " + str(tournament['name']) + " / location : " + tournament['location'] + "\n ==================== \n")
-        print(" -number of rounds :" + str(len(tournament_rounds)))
+        print(" -number of rounds :" + str(len(rounds)))
 
         i = 0
         for pair in players:
