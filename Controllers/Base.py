@@ -36,6 +36,8 @@ class BaseController:
             self.create_player()
         elif user_input == "3":
             self.create_reports()
+        elif user_input == "4":
+            exit()
         else:
             self.start()
 
@@ -99,7 +101,7 @@ class BaseController:
         return pairs
 
     def start_next_round(self):
-        all_players = self.round.load_pairs()
+        all_players = self.load_pairs()
         tournaments = Tournament.load_tournament_db()
         current_tournament = tournaments[-1]
         tournament_id = current_tournament["tournament_id"]

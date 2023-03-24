@@ -15,12 +15,6 @@ class Round:
         self.players = []
         self.matches = []
 
-    def make_pairs(self, round):
-        print("save to db")
-
-    def save_match(self, pairs):
-        print("save to db")
-
     def load_round_db():
         rounds_db = TinyDB('data/rounds.json', indent=4, separators=(',', ': '))
         return rounds_db.all()
@@ -33,7 +27,8 @@ class Round:
         all_rounds = rounds_db.all()
         return all_rounds[-1]
 
-    def load_pairs(self):
+    @staticmethod
+    def load_pairs():
         """Load rounds database
         @return: list of rounds
         """
